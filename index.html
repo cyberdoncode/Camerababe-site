@@ -11,12 +11,12 @@
 <!-- Open Graph / social preview — update the og:url to your live domain once hosted -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="camerababe — Wedding & Editorial Photography">
-<meta property="og:description" content="Weddings, traditional ceremonies and milestone moments, shot with an editorial eye.">
+<meta property="og:description" content="Weddings, lifestyle, and milestone moments, shot with an editorial eye.">
 <meta property="og:image" content="img/03.jpg">
 <meta property="og:url" content="https://www.camerababe.com/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="camerababe — Wedding & Editorial Photography">
-<meta name="twitter:description" content="Weddings, traditional ceremonies and milestone moments, shot with an editorial eye.">
+<meta name="twitter:description" content="Weddings, lifestyle, and milestone moments, shot with an editorial eye.">
 <meta name="twitter:image" content="img/03.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,10 +128,15 @@
     nav.links{
       position:fixed; inset:0; background:var(--ink);
       flex-direction:column; justify-content:center; align-items:center;
-      gap:2.2rem;
-      transform:translateX(100%); transition:transform .45s ease;
+      gap:2.2rem; z-index:150;
+      transform:translateX(100%);
+      transition:transform .45s ease, visibility 0s linear .45s;
+      pointer-events:none; visibility:hidden;
     }
-    nav.links.open{ transform:translateX(0); }
+    nav.links.open{
+      transform:translateX(0); pointer-events:auto; visibility:visible;
+      transition:transform .45s ease, visibility 0s linear 0s;
+    }
     nav.links a{ font-size:1.3rem; }
     .menu-btn{ display:block; }
     .menu-btn.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
@@ -245,7 +250,7 @@
   .story:nth-child(even) .story-figure{ order:2; }
   .story-figure{ position:relative; overflow:hidden; background:var(--ink-soft); }
   .story-figure img{
-    width:100%; aspect-ratio:4/5; object-fit:cover;
+    width:100%; height:auto; display:block;
     transition:transform .7s cubic-bezier(.2,.7,.2,1);
   }
   .story-figure:hover img{ transform:scale(1.045); }
@@ -265,6 +270,29 @@
   .t-quote{ font-family:'Fraunces', serif; font-size:1.12rem; line-height:1.55; color:var(--ink-soft); flex:1; }
   .t-name{ font-size:0.85rem; color:var(--wine); font-weight:600; }
   @media(max-width:900px){ .t-grid{ grid-template-columns:1fr; } }
+
+  .review-intro{ color:var(--ink-soft); font-size:1.02rem; line-height:1.6; max-width:56ch; margin-top:-1.6rem; margin-bottom:2.4rem; }
+  .t-empty{ grid-column:1/-1; text-align:center; padding:3.2rem 2rem; border:1px dashed var(--line-dark); }
+  .t-empty .t-stars{ display:block; margin-bottom:0.9rem; opacity:0.3; }
+  .t-empty p{ color:var(--ink-soft); font-size:1.02rem; }
+
+  .review-form-wrap{ margin-top:3.5rem; padding-top:2.6rem; border-top:1px solid var(--line-dark); max-width:640px; }
+  .review-form-wrap h3{ font-size:1.5rem; margin-bottom:1.5rem; }
+  .review-form{ display:flex; flex-direction:column; gap:1.5rem; }
+  .review-form .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  .review-form .field{ display:flex; flex-direction:column; gap:0.5rem; }
+  .review-form .field label{ font-size:0.78rem; letter-spacing:0.01em; color:var(--ink-soft); }
+  .review-form .field input, .review-form .field select, .review-form .field textarea{
+    background:transparent; border:none; border-bottom:1px solid var(--line-dark);
+    color:var(--ink); font-family:'Archivo',sans-serif; font-size:1rem;
+    padding:0.6rem 0.1rem; transition:border-color .3s ease;
+  }
+  .review-form .field input::placeholder, .review-form .field textarea::placeholder{ color:rgba(21,14,13,0.35); }
+  .review-form .field input:focus, .review-form .field select:focus, .review-form .field textarea:focus{ border-color:var(--wine); }
+  .review-form .field textarea{ resize:vertical; min-height:80px; }
+  .form-note-light{ font-size:0.82rem; color:var(--ink-soft); opacity:0.75; margin-top:-0.4rem; }
+  .confirm-msg.on-paper{ color:var(--wine); border-color:var(--wine); }
+  @media(max-width:640px){ .review-form .field-row{ grid-template-columns:1fr; } }
 
   /* ---------- SERVICES / PRICING ---------- */
   .services{ background:var(--paper); padding:7.5rem 0 4rem; }
@@ -302,6 +330,29 @@
 
   .rate-notes{ background:var(--paper-dim); padding:2rem 2.2rem; margin-top:0.6rem; }
   .rate-notes h4{ font-family:'Archivo',sans-serif; font-weight:600; font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--wine); margin-bottom:1.1rem; }
+
+  .family-block{ background:var(--ink); padding:2.6rem; margin-bottom:2.6rem; }
+  .family-heading{ display:flex; align-items:baseline; gap:0.7rem; margin-bottom:0.3rem; }
+  .family-heading h4{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; color:var(--gold-light); font-size:1.4rem; }
+  .family-sub{ color:var(--text-muted); font-size:0.85rem; margin-bottom:1.6rem; }
+  .family-table-wrap{ overflow-x:auto; margin-bottom:0.8rem; }
+  .family-table{ width:100%; border-collapse:collapse; min-width:480px; }
+  .family-table th{
+    text-align:left; font-family:'Archivo',sans-serif; font-weight:600; font-size:0.74rem;
+    letter-spacing:0.05em; text-transform:uppercase; color:var(--gold-light);
+    padding:0 0 0.9rem; border-bottom:1px solid var(--line);
+  }
+  .family-table td{ padding:1rem 0; border-bottom:1px solid var(--line); color:var(--text-on-ink); font-size:0.96rem; vertical-align:top; }
+  .family-table tr:last-child td{ border-bottom:none; }
+  .family-table td:nth-child(2){ font-family:'Fraunces',serif; font-style:italic; color:var(--gold-light); white-space:nowrap; }
+  .family-table td:nth-child(3){ color:var(--text-muted); font-size:0.9rem; }
+  .family-extra{ color:var(--text-muted); font-size:0.86rem; margin-top:0.2rem; }
+  .family-divider{ height:1px; background:var(--line); margin:1.8rem 0; }
+  .family-iphone-row{ display:flex; justify-content:space-between; align-items:baseline; padding:0.7rem 0; border-bottom:1px solid var(--line); }
+  .family-iphone-row:last-child{ border-bottom:none; }
+  .family-iphone-row span:first-child{ color:var(--text-on-ink); font-size:0.96rem; }
+  .family-iphone-row span:last-child{ font-family:'Fraunces',serif; font-style:italic; color:var(--gold-light); }
+  @media(max-width:600px){ .family-block{ padding:1.8rem 1.4rem; } }
   .notes-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0.7rem 2rem; }
   .notes-grid span{ font-size:0.92rem; color:var(--ink-soft); padding-left:1rem; position:relative; line-height:1.5; }
   .notes-grid span::before{ content:'—'; position:absolute; left:0; color:var(--gold); }
@@ -342,6 +393,11 @@
   }
 
   form.book-form{ display:flex; flex-direction:column; gap:1.5rem; }
+  .payment-box{ margin-top:2rem; border:1px solid var(--gold); padding:1.5rem 1.7rem; }
+  .payment-box h4{ font-family:'Archivo',sans-serif; font-weight:600; font-size:0.76rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--gold-light); margin-bottom:0.9rem; }
+  .payment-box p{ color:var(--text-muted); font-size:0.88rem; line-height:1.65; margin:0 0 0.9rem; }
+  .payment-box .bank-details{ font-family:'Archivo',sans-serif; font-size:0.92rem; color:var(--text-on-ink); line-height:1.9; }
+  .payment-box .bank-details strong{ color:var(--gold-light); font-weight:600; }
   .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
   .field{ display:flex; flex-direction:column; gap:0.5rem; }
   .field label{ font-size:0.78rem; letter-spacing:0.01em; color:var(--text-muted); }
@@ -405,7 +461,7 @@
   <div class="hero-content">
     <p class="hero-eyebrow">Wedding &amp; milestone photography</p>
     <h1>Every big day, told like a <em>fashion story</em>.</h1>
-    <p class="hero-sub">camerababe shoots weddings, traditional ceremonies, and life's milestone moments with an editorial eye — real emotion, dressed in proper light.</p>
+    <p class="hero-sub">camerababe shoots weddings, lifestyle, and life's milestone moments with an editorial eye — real emotion, dressed in proper light.</p>
     <div class="hero-actions">
       <a href="#stories" class="btn solid">View the stories</a>
       <a href="#book" class="btn">Book a shoot</a>
@@ -419,7 +475,7 @@
   <div class="wrap about-grid">
     <div class="about-copy">
       <p>I photograph the days people spend months planning for — and the small ones nobody plans for at all.</p>
-      <p>Under the name camerababe, I shoot weddings, traditional ceremonies, maternity sessions, milestones and brand portraits with one instinct running through all of it: light like editorial, feeling like documentary. Every gallery on this page is a real shoot — engagements, bridal work, birthdays, family sessions, business portraits, and the occasional fashion story shot because the light was too good to waste.</p>
+      <p>Under the name camerababe, I shoot weddings, lifestyle, maternity sessions, milestones and brand portraits with one instinct running through all of it: light like editorial, feeling like documentary. Every gallery on this page is a real shoot — engagements, bridal work, birthdays, family sessions, business portraits, and the occasional fashion story shot because the light was too good to waste.</p>
       <p>If you want photographs that still hold up once the excitement of the day has worn off, that's the work I do.</p>
     </div>
     <div class="about-figure">
@@ -435,15 +491,15 @@
     <div class="section-head" style="flex-direction:column; align-items:flex-start; gap:0.8rem;">
       <span class="section-num">01 — Portfolio</span>
       <h2>The stories</h2>
-      <p>Fourteen frames, fourteen reasons someone called a photographer.</p>
+      <p>Sixteen frames, sixteen reasons someone called a photographer.</p>
     </div>
 
     <div class="story">
-      <div class="story-figure"><img src="img/01.jpg" alt="Two friends in black outfits, playful editorial pose against a wall" loading="lazy" decoding="async"></div>
+      <div class="story-figure"><img src="img/01.jpg" alt="Two sisters in black outfits, a deliberately styled editorial pose against a wall" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">01 — Unscripted</span>
-        <h3 class="story-title">The pose nobody planned</h3>
-        <p class="story-text">Two friends, one backdrop, and a pose that only worked because nobody overthought it. The best portraits are usually the ones where the laughter sneaks into the frame.</p>
+        <span class="story-num">01 — Sisters</span>
+        <h3 class="story-title">A pose built on purpose</h3>
+        <p class="story-text">These two are sisters, not strangers to the camera — and that pose was fully planned, right down to the framing. Sometimes the strongest shot comes from a clear idea, not a happy accident.</p>
       </div>
     </div>
 
@@ -477,18 +533,18 @@
     <div class="story">
       <div class="story-figure"><img src="img/05.jpg" alt="Maternity shoot in a white dress among rocks and a stream" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">05 — Waiting</span>
-        <h3 class="story-title">A body finding its own balance</h3>
-        <p class="story-text">Maternity sessions ask for patience more than posing — bare feet finding balance on wet stone, hands raised like she's about to catch something.</p>
+        <span class="story-num">05 — New Life</span>
+        <h3 class="story-title">Waiting on a whole new life</h3>
+        <p class="story-text">This wasn't just a maternity shoot — it was a portrait of a life about to change completely. Bare feet finding balance on wet stone, hands raised like she's already holding what's coming. Some sessions are about a look; this one was about a beginning.</p>
       </div>
     </div>
 
     <div class="story">
       <div class="story-figure"><img src="img/06.jpg" alt="Birthday celebration with a floral cake" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">06 — Candles &amp; Cake</span>
-        <h3 class="story-title">Small joys, same good light</h3>
-        <p class="story-text">Not every shoot is a wedding. Some are a cake, a candle, and someone's name written in icing — small joys deserve the same care as the big ones.</p>
+        <span class="story-num">06 — Birthday</span>
+        <h3 class="story-title">A birthday, properly celebrated</h3>
+        <p class="story-text">Birthdays deserve more than a quick phone snap of the cake. This session was about the whole feeling of the day — the candles, her name iced across the cake, the joy of being celebrated on purpose. Small joys deserve the same care as the big ones.</p>
       </div>
     </div>
 
@@ -496,8 +552,8 @@
       <div class="story-figure"><img src="img/07.jpg" alt="Dramatic editorial shot with a motorcycle, mask, and traffic lights" loading="lazy" decoding="async"></div>
       <div class="story-copy">
         <span class="story-num">07 — Ignition</span>
-        <h3 class="story-title">A bold idea taken seriously</h3>
-        <p class="story-text">This one started as a birthday request and turned into a full production — smoke, traffic lights, a borrowed bike. Bring me a bold idea and I'll bring the lighting to match it.</p>
+        <h3 class="story-title">The night he won</h3>
+        <p class="story-text">Smoke, traffic lights, and a look sharp enough to take first place at a fashion show. When a client brings a concept this strong, I bring the lighting to match it.</p>
       </div>
     </div>
 
@@ -511,36 +567,18 @@
     </div>
 
     <div class="story">
-      <div class="story-figure"><img src="img/09.jpg" alt="Couple at a gold and white balloon celebration" loading="lazy" decoding="async"></div>
+      <div class="story-figure"><img src="img/10.jpg" alt="Bride-to-be in a white bow-sleeved dress and layered pearls, luxury interior" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">09 — The Announcement</span>
-        <h3 class="story-title">The second the news lands</h3>
-        <p class="story-text">Celebration parties like this one move fast — balloons deflate, cake gets cut, the room empties. I stay close enough to catch the exact moment the news lands on someone's face.</p>
-      </div>
-    </div>
-
-    <div class="story">
-      <div class="story-figure"><img src="img/10.jpg" alt="Bridal campaign shoot, model in a blue corset gown under a floral arch" loading="lazy" decoding="async"></div>
-      <div class="story-copy">
-        <span class="story-num">10 — Fitting Room</span>
-        <h3 class="story-title">Selling the dress before the try-on</h3>
-        <p class="story-text">Bridal campaigns need a gown that photographs as well as it fits. An archway, real florals, and a dress built like architecture — the kind of shoot that sells it before anyone tries it on.</p>
-      </div>
-    </div>
-
-    <div class="story">
-      <div class="story-figure"><img src="img/11.jpg" alt="Bride and groom on a staircase moments after their wedding ceremony" loading="lazy" decoding="async"></div>
-      <div class="story-copy">
-        <span class="story-num">11 — After, Before</span>
-        <h3 class="story-title">The quiet minute after "I do"</h3>
-        <p class="story-text">The quiet minute after the ceremony, before the reception noise starts — just two people, a bouquet, and a staircase that finally isn't in the way.</p>
+        <span class="story-num">09 — White On White</span>
+        <h3 class="story-title">Bridal, without the wedding day pressure</h3>
+        <p class="story-text">Not every white-dress moment has to happen on the actual wedding day. This one was pure pre-wedding indulgence — pearls stacked high, a dress built for drama, and none of the timeline stress a real ceremony comes with.</p>
       </div>
     </div>
 
     <div class="story">
       <div class="story-figure"><img src="img/12.jpg" alt="Family portrait of four outdoors among trees" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">12 — Four, Outdoors</span>
+        <span class="story-num">10 — Four, Outdoors</span>
         <h3 class="story-title">Waiting out the toddler and the wind</h3>
         <p class="story-text">Family sessions live or die on patience — waiting out the toddler, the wind, the one good smile from everyone at once. Worth every extra frame it takes to get there.</p>
       </div>
@@ -549,7 +587,7 @@
     <div class="story">
       <div class="story-figure"><img src="img/13.jpg" alt="Bakery owner portrait in chef whites holding a whisk" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">13 — Brand, Not Just Business</span>
+        <span class="story-num">11 — Brand, Not Just Business</span>
         <h3 class="story-title">A portrait that works as hard as she does</h3>
         <p class="story-text">Small business owners need portraits that work as hard as they do — on a website, a menu, a business card. This one's for someone who takes her craft as seriously as I take mine.</p>
       </div>
@@ -558,9 +596,45 @@
     <div class="story">
       <div class="story-figure"><img src="img/14.jpg" alt="Editorial portrait among overgrown greenery with red lipstick and gold jewelry" loading="lazy" decoding="async"></div>
       <div class="story-copy">
-        <span class="story-num">14 — Wild Green</span>
+        <span class="story-num">12 — Wild Green</span>
         <h3 class="story-title">Editorial doesn't need a studio</h3>
         <p class="story-text">Not every backdrop needs four walls. Overgrown leaves, hard midday sun, and a red lip that refuses to fade into the shade.</p>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-figure"><img src="img/15.jpg" alt="Woman raising a champagne glass at a fashion brand launch event, mannequins in the background" loading="lazy" decoding="async"></div>
+      <div class="story-copy">
+        <span class="story-num">13 — Launch Night</span>
+        <h3 class="story-title">Covering a brand's big moment</h3>
+        <p class="story-text">A brand launch is its own kind of event coverage — new collection styled on the mannequins, press and guests moving through the space, the founder finally exhaling long enough for a photo. I shoot these to capture the atmosphere and the product with equal attention, not just a room full of smiling faces.</p>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-figure"><img src="img/16.jpg" alt="Woman in a black dress and headscarf posed in a red convertible at night" loading="lazy" decoding="async"></div>
+      <div class="story-copy">
+        <span class="story-num">14 — After Dark</span>
+        <h3 class="story-title">Old Hollywood, new plate number</h3>
+        <p class="story-text">A convertible, a silk headscarf, and just enough streetlight to work with. Some editorial ideas don't need a studio — this one just needed a driveway after sunset.</p>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-figure"><img src="img/17.jpg" alt="Bride and groom embracing on a staircase at GOLifestyle House" loading="lazy" decoding="async"></div>
+      <div class="story-copy">
+        <span class="story-num">15 — Held Close</span>
+        <h3 class="story-title">The embrace before the reception</h3>
+        <p class="story-text">Shot at GOLifestyle House, in the minute right after the formal photos wrapped and they just held onto each other instead. Some of the best wedding images happen the second no one's posing anymore.</p>
+      </div>
+    </div>
+
+    <div class="story">
+      <div class="story-figure"><img src="img/18.jpg" alt="Woman in mint traditional attire with henna-decorated hands" loading="lazy" decoding="async"></div>
+      <div class="story-copy">
+        <span class="story-num">16 — Henna &amp; Lace</span>
+        <h3 class="story-title">Pre-wedding, done properly</h3>
+        <p class="story-text">Fresh henna, traditional fabric, and none of the rush of the actual wedding day. Pre-wedding sessions like this one exist to slow down and actually enjoy getting ready for what's coming.</p>
       </div>
     </div>
 
@@ -574,22 +648,47 @@
       <span class="section-num">02 — Kind Words</span>
       <h2>What clients say</h2>
     </div>
+    <p class="review-intro">Every review here comes from a real shoot with camerababe. Had a session recently? Leave one below.</p>
+
     <div class="t-grid">
-      <div class="t-card">
+      <div class="t-empty">
         <span class="t-stars">★★★★★</span>
-        <p class="t-quote">"[Replace with a real quote from a happy client — a line about how the shoot felt and how the photos turned out works best.]"</p>
-        <span class="t-name">— [Client name, event type]</span>
+        <p>Be the first to leave a review for a shoot with camerababe.</p>
       </div>
-      <div class="t-card">
-        <span class="t-stars">★★★★★</span>
-        <p class="t-quote">"[Replace with a second testimonial. Even a short WhatsApp message from a past client, lightly cleaned up, works well here.]"</p>
-        <span class="t-name">— [Client name, event type]</span>
-      </div>
-      <div class="t-card">
-        <span class="t-stars">★★★★★</span>
-        <p class="t-quote">"[Replace with a third testimonial. Ask a recent client for a couple of sentences — most people are happy to give one.]"</p>
-        <span class="t-name">— [Client name, event type]</span>
-      </div>
+    </div>
+
+    <div class="review-form-wrap">
+      <h3>Leave a review</h3>
+      <form class="review-form" id="reviewForm">
+        <div class="field-row">
+          <div class="field">
+            <label for="reviewName">Your name</label>
+            <input type="text" id="reviewName" name="reviewName" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="reviewShoot">Type of shoot</label>
+            <input type="text" id="reviewShoot" name="reviewShoot" placeholder="e.g. Wedding, Family portrait" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="reviewRating">Rating</label>
+          <select id="reviewRating" name="reviewRating" required>
+            <option value="" disabled selected>Select a rating</option>
+            <option>★★★★★ — Excellent</option>
+            <option>★★★★ — Great</option>
+            <option>★★★ — Good</option>
+            <option>★★ — Okay</option>
+            <option>★ — Not satisfied</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="reviewText">Your review</label>
+          <textarea id="reviewText" name="reviewText" placeholder="Tell us about your experience..." required></textarea>
+        </div>
+        <p class="form-note-light">Reviews are checked before being added to the site.</p>
+        <button type="submit" class="btn on-paper">Submit review</button>
+        <div class="confirm-msg on-paper" id="reviewConfirmMsg">Thank you — your review has been sent for approval.</div>
+      </form>
     </div>
   </div>
 </section>
@@ -604,13 +703,13 @@
     <div class="service-list">
       <div class="service">
         <span class="service-num">01</span>
-        <h3>Weddings &amp; traditional ceremonies</h3>
-        <p>Full-day coverage for white weddings and traditional ceremonies — engagements and multi-outfit celebrations. Every key moment covered, without a rigid shot list getting in the way of what actually happens.</p>
+        <h3>Weddings</h3>
+        <p>Full-day wedding coverage, engagement shoots, and bridal showers — every key moment covered, without a rigid shot list getting in the way of what actually happens.</p>
       </div>
       <div class="service">
         <span class="service-num">02</span>
         <h3>Portraits &amp; milestones</h3>
-        <p>Maternity, graduations, birthdays, family sessions and engagement shoots — single-subject sessions built around getting the one image you'll actually print.</p>
+        <p>Maternity, graduations, birthdays, and family sessions — single-subject sessions built around getting the one image you'll actually print.</p>
       </div>
       <div class="service">
         <span class="service-num">03</span>
@@ -686,6 +785,42 @@
         <div class="rate-simple-row"><span>Photography<small>Duration depends on the event</small></span><span class="amt">From ₦150,000</span></div>
       </div>
 
+      <div class="family-block">
+        <div class="family-heading">
+          <h4>👨‍👩‍👧 Family Portraits</h4>
+        </div>
+        <p class="family-sub">Digital camera — professionally edited</p>
+        <div class="family-table-wrap">
+          <table class="family-table">
+            <thead>
+              <tr><th>Family size</th><th>Price</th><th>Deliverables</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Up to 3 people</td><td>₦120,000</td><td>8 professionally edited photos</td></tr>
+              <tr><td>Up to 5 people</td><td>₦160,000</td><td>10 professionally edited photos</td></tr>
+              <tr><td>Up to 8 people</td><td>₦220,000</td><td>15 professionally edited photos</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="family-extra">Additional family member — ₦10,000 each</p>
+
+        <div class="family-divider"></div>
+
+        <p class="family-sub" style="margin-bottom:0.8rem;">iPhone family portraits</p>
+        <div class="family-iphone-row"><span>Up to 3 people</span><span>₦80,000</span></div>
+        <div class="family-iphone-row"><span>Up to 5 people</span><span>₦110,000</span></div>
+        <div class="family-iphone-row"><span>Up to 8 people</span><span>₦150,000</span></div>
+
+        <div class="family-divider"></div>
+
+        <p class="family-sub" style="margin-bottom:0.8rem;">Optional add-ons</p>
+        <div class="family-iphone-row"><span>Extra edited photo</span><span>₦5,000</span></div>
+        <div class="family-iphone-row"><span>High-end retouching<small style="display:block;color:var(--text-muted);font-size:0.78rem;margin-top:0.15rem;">Per photo</small></span><span>₦5,000</span></div>
+        <div class="family-iphone-row"><span>Express delivery</span><span>₦10,000</span></div>
+        <div class="family-iphone-row"><span>Outdoor / location fee</span><span>Charged separately</span></div>
+        <div class="family-iphone-row"><span>Studio rental<small style="display:block;color:var(--text-muted);font-size:0.78rem;margin-top:0.15rem;">If required</small></span><span>Paid by client</span></div>
+      </div>
+
       <div class="rate-notes">
         <h4>Good to know</h4>
         <div class="notes-grid">
@@ -713,23 +848,19 @@
     <div class="faq-list">
       <details class="faq-item">
         <summary>How far in advance should I book?</summary>
-        <p>[Replace with your real booking window — e.g. "Wedding dates are best booked 2–3 months ahead; portrait sessions can often be arranged within a week."]</p>
+        <p>Book ahead of time where you can — same-day bookings are accepted but attract an additional fee.</p>
       </details>
       <details class="faq-item">
         <summary>Do you require a deposit?</summary>
-        <p>[Replace with your deposit policy — e.g. "A 30% non-refundable deposit secures your date, with the balance due before or on the day of the shoot."]</p>
+        <p>Yes — a 50% deposit secures your session, or 70% for weddings. The remaining balance is due on the day of the shoot.</p>
       </details>
       <details class="faq-item">
         <summary>How long until I get my photos?</summary>
-        <p>[Replace with your real turnaround — e.g. "Portrait galleries within 1–2 weeks; full wedding galleries within 4–6 weeks."]</p>
+        <p>Photos are delivered within 74 hours. Turnaround for event coverage depends on the size of the event. Videos take 5 days, excluding event videography.</p>
       </details>
       <details class="faq-item">
         <summary>Do you travel for shoots?</summary>
-        <p>[Replace with your travel policy — e.g. "Yes — travel within [city] is included, and destination bookings are quoted individually."]</p>
-      </details>
-      <details class="faq-item">
-        <summary>What's included in a wedding package?</summary>
-        <p>[Replace with what's actually included — hours of coverage, number of edited images, second shooter, prints, etc.]</p>
+        <p>Yes. Shoots outside the city centre carry an additional travel fee, and out-of-state travel needs to be reserved in advance.</p>
       </details>
     </div>
   </div>
@@ -743,6 +874,16 @@
       <h2>Tell me the date. I'll bring the light.</h2>
       <p>Fill in a few details about your event and I'll get back to you with availability and a quote. The more specific you are about the day, the faster I can put together a plan.</p>
       <p class="booking-quote">"I'd rather shoot one honest expression than fifty polite ones."</p>
+
+      <div class="payment-box">
+        <h4>How booking works</h4>
+        <p>A deposit secures your date — 50% for portrait and event sessions, 70% for weddings. The remaining balance is due on the day of the shoot. Your date is only confirmed once the deposit clears.</p>
+        <div class="bank-details">
+          <strong>Bank:</strong> [Bank name]<br>
+          <strong>Account name:</strong> [Account name]<br>
+          <strong>Account number:</strong> [Account number]
+        </div>
+      </div>
     </div>
 
     <form class="book-form" id="bookForm">
@@ -766,6 +907,7 @@
           <select id="eventType" name="eventType" required>
             <option value="" disabled selected>Select one</option>
             <option>Wedding — full day</option>
+            <option>Pre-wedding</option>
             <option>Traditional ceremony</option>
             <option>Engagement</option>
             <option>Maternity</option>
@@ -793,7 +935,7 @@
       </div>
       <p class="form-note">Submitting opens your email app with these details pre-filled, addressed to camerababe.</p>
       <button type="submit" class="btn solid">Send booking request</button>
-      <div class="confirm-msg" id="confirmMsg">Your email app should now be open with your request ready to send. If it didn't open, email hello@camerababe.com directly.</div>
+      <div class="confirm-msg" id="confirmMsg">Your email app should now be open with your request ready to send. If it didn't open, email afridauhtercreationsltd@camerababe.com directly.</div>
     </form>
   </div>
 </section>
@@ -806,13 +948,13 @@
       <div class="footer-cols">
         <div class="footer-col">
           <h4>Contact</h4>
-          <a href="mailto:hello@camerababe.com">hello@camerababe.com</a>
+          <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a>
           <span>Reply within 24–48 hours</span>
         </div>
         <div class="footer-col">
           <h4>Follow</h4>
-          <a href="#" target="_blank" rel="noopener">Instagram</a>
-          <a href="#" target="_blank" rel="noopener">TikTok</a>
+          <a href="https://instagram.com/camerababe_official" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@official_camerababe" target="_blank" rel="noopener">TikTok</a>
         </div>
         <div class="footer-col">
           <h4>Explore</h4>
@@ -875,8 +1017,30 @@ Location: ${location}
 Details:
 ${message}`
     );
-    window.location.href = `mailto:hello@camerababe.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:afridauhtercreationsltd@camerababe.com?subject=${subject}&body=${body}`;
     confirmMsg.classList.add('show');
+  });
+
+  const reviewForm = document.getElementById('reviewForm');
+  const reviewConfirmMsg = document.getElementById('reviewConfirmMsg');
+  reviewForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    const rName = reviewForm.reviewName.value.trim();
+    const rShoot = reviewForm.reviewShoot.value.trim();
+    const rRating = reviewForm.reviewRating.value;
+    const rText = reviewForm.reviewText.value.trim();
+
+    const subject = encodeURIComponent(`New review: ${rShoot || 'Shoot'} — ${rName}`);
+    const body = encodeURIComponent(
+`Name: ${rName}
+Type of shoot: ${rShoot}
+Rating: ${rRating}
+
+Review:
+${rText}`
+    );
+    window.location.href = `mailto:afridauhtercreationsltd@camerababe.com?subject=${subject}&body=${body}`;
+    reviewConfirmMsg.classList.add('show');
   });
 </script>
 
