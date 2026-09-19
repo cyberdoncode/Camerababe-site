@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Shoot — camerababe</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
+<meta name="description" content="Book a photography session with camerababe — weddings, portraits, family sessions, brand and editorial shoots.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Book a Shoot — camerababe">
+<meta property="og:description" content="Tell me the date. I'll bring the light.">
+<meta property="og:image" content="img/17.jpg">
+<meta property="og:url" content="https://www.camerababe.com/booking.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Book a Shoot — camerababe">
+<meta name="twitter:description" content="Tell me the date. I'll bring the light.">
+<meta name="twitter:image" content="img/17.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <a href="index.html" class="brand-mark"><img src="img/logo-icon.png" alt="camerababe logo mark"> camerababe</a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html" class="cta active">Book a shoot</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <img class="page-hero-img" src="img/17.jpg" alt="Bride and groom embracing on a staircase">
+  <div class="wrap page-hero-content">
+    <p class="page-hero-eyebrow">Booking</p>
+    <h1>Tell me the date. I'll bring the light.</h1>
+    <p class="page-hero-sub">Fill in a few details below and I'll get back to you with availability and a quote.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-num">Kind Words</span>
+      <h2>What clients say</h2>
+    </div>
+    <p class="review-intro">Every review here comes from a real shoot with camerababe. Had a session recently? Leave one below.</p>
+
+    <div class="t-grid">
+      <div class="t-empty">
+        <span class="t-stars">★★★★★</span>
+        <p>Be the first to leave a review for a shoot with camerababe.</p>
+      </div>
+    </div>
+
+    <div class="review-form-wrap">
+      <h3>Leave a review</h3>
+      <form class="review-form" id="reviewForm">
+        <div class="field-row">
+          <div class="field">
+            <label for="reviewName">Your name</label>
+            <input type="text" id="reviewName" name="reviewName" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="reviewShoot">Type of shoot</label>
+            <input type="text" id="reviewShoot" name="reviewShoot" placeholder="e.g. Wedding, Family portrait" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="reviewRating">Rating</label>
+          <select id="reviewRating" name="reviewRating" required>
+            <option value="" disabled selected>Select a rating</option>
+            <option>★★★★★ — Excellent</option>
+            <option>★★★★ — Great</option>
+            <option>★★★ — Good</option>
+            <option>★★ — Okay</option>
+            <option>★ — Not satisfied</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="reviewText">Your review</label>
+          <textarea id="reviewText" name="reviewText" placeholder="Tell us about your experience..." required></textarea>
+        </div>
+        <p class="form-note-light">Reviews are checked before being added to the site.</p>
+        <button type="submit" class="btn on-paper">Submit review</button>
+        <div class="confirm-msg on-paper" id="reviewConfirmMsg">Thank you — your review has been sent for approval.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="book">
+  <div class="wrap booking-grid">
+    <div class="booking-intro">
+      <span class="section-num">Booking</span>
+      <h2>Ready when you are</h2>
+      <p>Fill in a few details about your event and I'll get back to you with availability and a quote. The more specific you are about the day, the faster I can put together a plan.</p>
+      <p class="booking-quote">"I'd rather shoot one honest expression than fifty polite ones."</p>
+
+      <div class="payment-box">
+        <h4>How booking works</h4>
+        <p>A deposit secures your date — 50% for portrait and event sessions, 70% for weddings. The remaining balance is due on the day of the shoot. Your date is only confirmed once the deposit clears.</p>
+        <div class="bank-details">
+          <strong>Bank:</strong> [Bank name]<br>
+          <strong>Account name:</strong> [Account name]<br>
+          <strong>Account number:</strong> [Account number]
+        </div>
+      </div>
+    </div>
+
+    <form class="book-form" id="bookForm">
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" placeholder="Optional">
+        </div>
+        <div class="field">
+          <label for="eventType">Type of shoot</label>
+          <select id="eventType" name="eventType" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Wedding — full day</option>
+            <option>Pre-wedding</option>
+            <option>Traditional ceremony</option>
+            <option>Engagement</option>
+            <option>Maternity</option>
+            <option>Birthday / celebration</option>
+            <option>Family portrait</option>
+            <option>Graduation</option>
+            <option>Brand / business portrait</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="date">Preferred date</label>
+          <input type="date" id="date" name="date">
+        </div>
+        <div class="field">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" placeholder="City / venue">
+        </div>
+      </div>
+      <div class="field">
+        <label for="message">Tell me about the day</label>
+        <textarea id="message" name="message" placeholder="Number of guests, hours of coverage, the vibe you're going for..."></textarea>
+      </div>
+      <p class="form-note">Submitting opens your email app with these details pre-filled, addressed to camerababe.</p>
+      <button type="submit" class="btn solid">Send booking request</button>
+      <div class="confirm-msg" id="confirmMsg">Your email app should now be open with your request ready to send. If it didn't open, email afridauhtercreationsltd@camerababe.com directly.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="img/logo-icon.png" alt="camerababe logo mark"> <span>camerababe</span></div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a>
+          <span>Reply within 24–48 hours</span>
+        </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <a href="https://instagram.com/camerababe_official" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@official_camerababe" target="_blank" rel="noopener">TikTok</a>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="index.html">Home</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="booking.html">Book a shoot</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> camerababe. All images shown are original work.</span>
+      <span>Built with love, from Abuja, by Fatherson.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

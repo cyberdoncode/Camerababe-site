@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://camerababe.com/sitemap.xml
