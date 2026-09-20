@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{if(localStorage.getItem('camerababe-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weddings — camerababe</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
+<meta name="description" content="Wedding photography by camerababe — full ceremonies, pre-wedding sessions, and the quiet moments in between.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Weddings — camerababe">
+<meta property="og:description" content="Wedding photography by camerababe — full ceremonies, pre-wedding sessions, and the quiet moments in between.">
+<meta property="og:image" content="https://www.camerababe.com/img/17.jpg">
+<meta property="og:url" content="https://www.camerababe.com/portfolio-weddings.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Weddings — camerababe">
+<meta name="twitter:description" content="Wedding photography by camerababe — full ceremonies, pre-wedding sessions, and the quiet moments in between.">
+<meta name="twitter:image" content="https://www.camerababe.com/img/17.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <a href="index.html" class="brand-mark"><img src="img/logo-icon.png" alt="camerababe logo mark"> camerababe</a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html" class="cta">Book a shoot</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 1020.354 15.354z"/></svg>
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- VIEWER -->
+<section class="viewer">
+  <div class="wrap viewer-top">
+    <div>
+      <span class="viewer-eyebrow">Portfolio — Category 1 of 4</span>
+      <h1>Weddings</h1>
+    </div>
+    <a href="portfolio.html" class="viewer-back">All categories</a>
+  </div>
+
+  <div class="wrap viewer-stage">
+    <div class="viewer-frame" id="viewerFrame">
+      <img id="viewerImg" src="" alt="" loading="eager" decoding="async">
+    </div>
+    <div class="viewer-copy">
+      <span class="viewer-num" id="viewerNum"></span>
+      <h2 class="viewer-title" id="viewerTitle"></h2>
+      <p class="viewer-text" id="viewerText"></p>
+    </div>
+
+    <div class="viewer-controls">
+      <a href="#" class="viewer-nav-btn prev" id="viewerPrev"><span class="arrow">&larr;</span> <span class="label">Previous photo</span></a>
+      <span class="viewer-counter" id="viewerCounter"></span>
+      <a href="#" class="viewer-nav-btn next" id="viewerNext"><span class="label">Next photo</span> <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="img/logo-icon.png" alt="camerababe logo mark"> <span>camerababe</span></div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a>
+          <span>Reply within 24–48 hours</span>
+        </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <a href="https://instagram.com/camerababe_official" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@official_camerababe" target="_blank" rel="noopener">TikTok</a>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="index.html">Home</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="booking.html">Book a shoot</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> camerababe. All images shown are original work.</span>
+      <span>Built with love, from Abuja, by Fatherson.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.PORTFOLIO_VIEWER = {
+    photos: [{"src": "img/02.jpg", "alt": "Traditional ceremony, couple in red regalia holding ceremonial items", "num": "01 \u2014 Traditional Rites", "title": "Every detail earns its close-up", "text": "Traditional ceremonies move fast and carry a lot of meaning in small details \u2014 the beadwork, the regalia, the way a couple holds themselves once they're officially presented. Those are the frames I stay ready for."}, {"src": "img/04.jpg", "alt": "Bride in a red lace gown and traditional headwrap in an opulent interior", "num": "02 \u2014 The Second Outfit", "title": "Five minutes before the reception", "text": "A lot of brides change outfits at least once, and the second look always feels a little like a secret. Gold light, a quiet room, and a few minutes before it fills back up with guests."}, {"src": "img/10.jpg", "alt": "Bride-to-be in a white bow-sleeved dress and layered pearls, luxury interior", "num": "03 \u2014 White On White", "title": "Bridal, without the wedding day pressure", "text": "Not every white-dress moment has to happen on the actual wedding day. This one was pure pre-wedding indulgence \u2014 pearls stacked high, a dress built for drama, and none of the timeline stress a real ceremony comes with."}, {"src": "img/17.jpg", "alt": "Bride and groom embracing on a staircase at GOLifestyle House", "num": "04 \u2014 Held Close", "title": "The embrace before the reception", "text": "Shot at GOLifestyle House, in the minute right after the formal photos wrapped and they just held onto each other instead. Some of the best wedding images happen the second no one's posing anymore."}],
+    backHref: "portfolio.html",
+    backLabel: "Back to Portfolio",
+    nextHref: "portfolio-portraits.html",
+    nextLabel: "Next: Portraits & Milestones"
+  };
+</script>
+<script src="main.js"></script>
+</body>
+</html>

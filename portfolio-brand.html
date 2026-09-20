@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <script>(function(){try{if(localStorage.getItem('camerababe-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — camerababe</title>
+<title>Brand — camerababe</title>
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
-<meta name="description" content="camerababe portfolio — weddings, portraits & milestones, editorial, and brand photography.">
+<meta name="description" content="Business portraits and brand event coverage by camerababe.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Portfolio — camerababe">
-<meta property="og:description" content="Weddings, portraits & milestones, editorial, and brand photography.">
-<meta property="og:image" content="https://www.camerababe.com/img/17.jpg">
-<meta property="og:url" content="https://www.camerababe.com/portfolio.html">
+<meta property="og:title" content="Brand — camerababe">
+<meta property="og:description" content="Business portraits and brand event coverage by camerababe.">
+<meta property="og:image" content="https://www.camerababe.com/img/19.jpg">
+<meta property="og:url" content="https://www.camerababe.com/portfolio-brand.html">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Portfolio — camerababe">
-<meta name="twitter:description" content="Weddings, portraits & milestones, editorial, and brand photography.">
-<meta name="twitter:image" content="https://www.camerababe.com/img/17.jpg">
+<meta name="twitter:title" content="Brand — camerababe">
+<meta name="twitter:description" content="Business portraits and brand event coverage by camerababe.">
+<meta name="twitter:image" content="https://www.camerababe.com/img/19.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
@@ -42,59 +42,31 @@
   </button>
 </header>
 
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <img class="page-hero-img" src="img/10.jpg" alt="Bride-to-be in a white bow-sleeved dress and layered pearls">
-  <div class="wrap page-hero-content">
-    <p class="page-hero-eyebrow">Portfolio</p>
-    <h1>Seventeen frames, four categories</h1>
-    <p class="page-hero-sub">Pick a category to step through the full gallery, one photo at a time.</p>
-  </div>
-</section>
-
-<!-- CATEGORY TILES -->
-<section class="portfolio-intro">
-  <div class="wrap">
-    <p>Every gallery here is a real shoot — no stock photography, no styled-for-the-website sets. Choose a category to see the work and the story behind each frame.</p>
-    <div class="cat-grid">
-      <a class="cat-tile" href="portfolio-weddings.html">
-        <img src="img/17.jpg" alt="Weddings category cover" loading="lazy" decoding="async">
-        <span class="cat-tile-label">
-          <span class="cat-count">4 stories</span>
-          <h3>Weddings</h3>
-        </span>
-      </a>
-      <a class="cat-tile" href="portfolio-portraits.html">
-        <img src="img/05.jpg" alt="Portraits and milestones category cover" loading="lazy" decoding="async">
-        <span class="cat-tile-label">
-          <span class="cat-count">6 stories</span>
-          <h3>Portraits &amp; Milestones</h3>
-        </span>
-      </a>
-      <a class="cat-tile" href="portfolio-editorial.html">
-        <img src="img/03.jpg" alt="Editorial category cover" loading="lazy" decoding="async">
-        <span class="cat-tile-label">
-          <span class="cat-count">4 stories</span>
-          <h3>Editorial</h3>
-        </span>
-      </a>
-      <a class="cat-tile" href="portfolio-brand.html">
-        <img src="img/15.jpg" alt="Brand category cover" loading="lazy" decoding="async">
-        <span class="cat-tile-label">
-          <span class="cat-count">3 stories</span>
-          <h3>Brand</h3>
-        </span>
-      </a>
+<!-- VIEWER -->
+<section class="viewer">
+  <div class="wrap viewer-top">
+    <div>
+      <span class="viewer-eyebrow">Portfolio — Category 4 of 4</span>
+      <h1>Brand</h1>
     </div>
+    <a href="portfolio.html" class="viewer-back">All categories</a>
   </div>
-</section>
 
-<!-- CTA BAND -->
-<section class="cta-band">
-  <div class="wrap">
-    <h2>See something you like?</h2>
-    <p>Every one of these started with a message. Tell me your date and what you have in mind.</p>
-    <a href="booking.html" class="btn solid">Book a shoot</a>
+  <div class="wrap viewer-stage">
+    <div class="viewer-frame" id="viewerFrame">
+      <img id="viewerImg" src="" alt="" loading="eager" decoding="async">
+    </div>
+    <div class="viewer-copy">
+      <span class="viewer-num" id="viewerNum"></span>
+      <h2 class="viewer-title" id="viewerTitle"></h2>
+      <p class="viewer-text" id="viewerText"></p>
+    </div>
+
+    <div class="viewer-controls">
+      <a href="#" class="viewer-nav-btn prev" id="viewerPrev"><span class="arrow">&larr;</span> <span class="label">Previous photo</span></a>
+      <span class="viewer-counter" id="viewerCounter"></span>
+      <a href="#" class="viewer-nav-btn next" id="viewerNext"><span class="label">Next photo</span> <span class="arrow">&rarr;</span></a>
+    </div>
   </div>
 </section>
 
@@ -129,6 +101,15 @@
   </div>
 </footer>
 
+<script>
+  window.PORTFOLIO_VIEWER = {
+    photos: [{"src": "img/13.jpg", "alt": "Bakery owner portrait in chef whites holding a whisk", "num": "01 \u2014 Brand, Not Just Business", "title": "A portrait that works as hard as she does", "text": "Small business owners need portraits that work as hard as they do \u2014 on a website, a menu, a business card. This one's for someone who takes her craft as seriously as I take mine."}, {"src": "img/15.jpg", "alt": "Woman raising a champagne glass at a fashion brand launch event, mannequins in the background", "num": "02 \u2014 Launch Night", "title": "Covering a brand's big moment", "text": "A brand launch is its own kind of event coverage \u2014 new collection styled on the mannequins, press and guests moving through the space, the founder finally exhaling long enough for a photo. I shoot these to capture the atmosphere and the product with equal attention, not just a room full of smiling faces."}, {"src": "img/19.jpg", "alt": "Odumodu Blvck seated in traditional agbada beside a guest at an AA Clothiers brand shoot, bamboo backdrop and logo signage", "num": "03 \u2014 AA Clothiers x Odumodu Blvck", "title": "When the name in the room does the talking", "text": "Some brand shoots get a bigger boost than others \u2014 this one had Odumodu Blvck himself sitting in frame for AA Clothiers, effortless as ever. When a face that recognizable is in the room, the job is simple: find the light, get the angle, and let him do the rest."}],
+    backHref: "portfolio.html",
+    backLabel: "Back to Portfolio",
+    nextHref: "portfolio.html",
+    nextLabel: "Back to Portfolio"
+  };
+</script>
 <script src="main.js"></script>
 </body>
 </html>

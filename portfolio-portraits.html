@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>(function(){try{if(localStorage.getItem('camerababe-theme')==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portraits & Milestones — camerababe</title>
+<link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
+<meta name="description" content="Maternity, graduations, birthdays, and family portrait photography by camerababe.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portraits & Milestones — camerababe">
+<meta property="og:description" content="Maternity, graduations, birthdays, and family portrait photography by camerababe.">
+<meta property="og:image" content="https://www.camerababe.com/img/05.jpg">
+<meta property="og:url" content="https://www.camerababe.com/portfolio-portraits.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Portraits & Milestones — camerababe">
+<meta name="twitter:description" content="Maternity, graduations, birthdays, and family portrait photography by camerababe.">
+<meta name="twitter:image" content="https://www.camerababe.com/img/05.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <a href="index.html" class="brand-mark"><img src="img/logo-icon.png" alt="camerababe logo mark"> camerababe</a>
+  <nav class="links" id="navLinks">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html" class="cta">Book a shoot</a>
+  </nav>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 1020.354 15.354z"/></svg>
+  </button>
+  <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- VIEWER -->
+<section class="viewer">
+  <div class="wrap viewer-top">
+    <div>
+      <span class="viewer-eyebrow">Portfolio — Category 2 of 4</span>
+      <h1>Portraits & Milestones</h1>
+    </div>
+    <a href="portfolio.html" class="viewer-back">All categories</a>
+  </div>
+
+  <div class="wrap viewer-stage">
+    <div class="viewer-frame" id="viewerFrame">
+      <img id="viewerImg" src="" alt="" loading="eager" decoding="async">
+    </div>
+    <div class="viewer-copy">
+      <span class="viewer-num" id="viewerNum"></span>
+      <h2 class="viewer-title" id="viewerTitle"></h2>
+      <p class="viewer-text" id="viewerText"></p>
+    </div>
+
+    <div class="viewer-controls">
+      <a href="#" class="viewer-nav-btn prev" id="viewerPrev"><span class="arrow">&larr;</span> <span class="label">Previous photo</span></a>
+      <span class="viewer-counter" id="viewerCounter"></span>
+      <a href="#" class="viewer-nav-btn next" id="viewerNext"><span class="label">Next photo</span> <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand"><img src="img/logo-icon.png" alt="camerababe logo mark"> <span>camerababe</span></div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a>
+          <span>Reply within 24–48 hours</span>
+        </div>
+        <div class="footer-col">
+          <h4>Follow</h4>
+          <a href="https://instagram.com/camerababe_official" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.tiktok.com/@official_camerababe" target="_blank" rel="noopener">TikTok</a>
+        </div>
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <a href="index.html">Home</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="booking.html">Book a shoot</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> camerababe. All images shown are original work.</span>
+      <span>Built with love, from Abuja, by Fatherson.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.PORTFOLIO_VIEWER = {
+    photos: [{"src": "img/01.jpg", "alt": "Two sisters in black outfits, a deliberately styled editorial pose against a wall", "num": "01 \u2014 Sisters", "title": "A pose built on purpose", "text": "These two are sisters, not strangers to the camera \u2014 and that pose was fully planned, right down to the framing. Sometimes the strongest shot comes from a clear idea, not a happy accident."}, {"src": "img/05.jpg", "alt": "Maternity shoot in a white dress among rocks and a stream", "num": "02 \u2014 New Life", "title": "Waiting on a whole new life", "text": "This wasn't just a maternity shoot \u2014 it was a portrait of a life about to change completely. Bare feet finding balance on wet stone, hands raised like she's already holding what's coming. Some sessions are about a look; this one was about a beginning."}, {"src": "img/06.jpg", "alt": "Birthday celebration with a floral cake", "num": "03 \u2014 Birthday", "title": "A birthday, properly celebrated", "text": "Birthdays deserve more than a quick phone snap of the cake. This session was about the whole feeling of the day \u2014 the candles, her name iced across the cake, the joy of being celebrated on purpose. Small joys deserve the same care as the big ones."}, {"src": "img/08.jpg", "alt": "Graduation portrait in cap and gown, seated at a desk", "num": "04 \u2014 Conferred", "title": "Making the years show", "text": "A graduation portrait has one job: make the years show. The gown does the talking \u2014 I just find the light that makes the tassel catch."}, {"src": "img/12.jpg", "alt": "Family portrait of four outdoors among trees", "num": "05 \u2014 Four, Outdoors", "title": "Waiting out the toddler and the wind", "text": "Family sessions live or die on patience \u2014 waiting out the toddler, the wind, the one good smile from everyone at once. Worth every extra frame it takes to get there."}, {"src": "img/18.jpg", "alt": "Woman in mint traditional attire showing off fresh henna on her hands", "num": "06 \u2014 Henna & Lace", "title": "A little detail worth its own moment", "text": "Fresh henna deserves better than a quick phone photo before it fades. This session was just about the detail itself \u2014 mint fabric, gold jewelry, and hands worth showing off."}],
+    backHref: "portfolio.html",
+    backLabel: "Back to Portfolio",
+    nextHref: "portfolio-editorial.html",
+    nextLabel: "Next: Editorial"
+  };
+</script>
+<script src="main.js"></script>
+</body>
+</html>
