@@ -1,0 +1,8 @@
+{
+  "name": "camerababe-site",
+  "private": true,
+  "description": "camerababe photography site — static pages plus Netlify Functions for the booking API.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
