@@ -1,15 +1,64 @@
 // POST /.netlify/functions/save-booking
 //
 // Saves a booking inquiry (from the Booking page form) into a real database
-// (Netlify Blobs — built into Netlify, no extra account needed) and hands
-// back a bookingId. The front end keeps that id and attaches it to the
-// deposit payment later, so verify-deposit.js can update the same record
-// instead of creating a disconnected one.
+// (Netlify Blobs — built into Netlify, no extra account needed), hands back
+// a bookingId, and emails the studio a notification directly (via Resend) —
+// server-side, so it never depends on the visitor's browser reaching
+// Formspree successfully, and never pops open anyone's email app.
 //
-// This does NOT replace Formspree — the booking form still emails you via
-// Formspree as before. This just also keeps a structured, searchable record.
+// This runs ALONGSIDE Formspree (the booking form still also tries
+// Formspree, unchanged) rather than replacing it — belt and suspenders.
+// Needs RESEND_API_KEY set in Netlify to actually send the notification;
+// without it, the booking is still safely saved, just not emailed.
 
 const { getStore } = require('@netlify/blobs');
+
+async function notifyStudio(record) {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.CONFIRMATION_FROM || 'camerababe <onboarding@resend.dev>';
+  const studioEmail = process.env.STUDIO_EMAIL || 'afridauhtercreationsltd@camerababe.com';
+
+  if (!apiKey) {
+    console.warn('notifyStudio: RESEND_API_KEY not set — skipping studio notification email');
+    return { sent: false, reason: 'RESEND_API_KEY not set' };
+  }
+
+  const html = `
+    <div style="font-family:Arial,sans-serif;font-size:15px;color:#141413;line-height:1.6;">
+      <p>New booking inquiry from the site:</p>
+      <table style="border-collapse:collapse;">
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Name</td><td style="padding:4px 0;font-weight:600;">${record.name}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Email</td><td style="padding:4px 0;">${record.email}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Phone</td><td style="padding:4px 0;">${record.phone || '—'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Type of shoot</td><td style="padding:4px 0;">${record.eventType || '—'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Preferred date</td><td style="padding:4px 0;">${record.date || '—'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Location</td><td style="padding:4px 0;">${record.location || '—'}</td></tr>
+      </table>
+      <p style="margin-top:1rem;color:#6b6459;">Details:</p>
+      <p style="white-space:pre-wrap;">${(record.message || '(none provided)').replace(/</g, '&lt;')}</p>
+      <p style="margin-top:1rem;font-size:12px;color:#9a9284;">Booking ID: ${record.bookingId}</p>
+    </div>
+  `;
+
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      from,
+      to: [studioEmail],
+      reply_to: record.email,
+      subject: `New booking inquiry — ${record.eventType || 'Shoot'} — ${record.name}`,
+      html,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    console.error('notifyStudio: Resend send failed:', res.status, errText);
+    return { sent: false, reason: `Resend error ${res.status}` };
+  }
+  return { sent: true };
+}
 
 const ALLOWED_ORIGINS = [
   'https://www.camerababe.com',
@@ -77,9 +126,16 @@ exports.handler = async function (event) {
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'Could not save booking right now' }) };
   }
 
+  let notifyResult = { sent: false };
+  try {
+    notifyResult = await notifyStudio(record);
+  } catch (err) {
+    console.error('save-booking: notifyStudio threw', err);
+  }
+
   return {
     statusCode: 200,
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bookingId }),
+    body: JSON.stringify({ bookingId, notified: !!notifyResult.sent }),
   };
 };
