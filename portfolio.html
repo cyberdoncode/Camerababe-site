@@ -7,20 +7,29 @@
 <title>Portfolio — camerababe</title>
 <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png">
-<meta name="description" content="camerababe portfolio — weddings, portraits & milestones, editorial, and brand photography.">
+<meta name="description" content="camerababe portfolio — weddings, portraits & milestones, lifestyle, editorial and fashion, brand and commercial, and events photography.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Portfolio — camerababe">
-<meta property="og:description" content="Weddings, portraits & milestones, editorial, and brand photography.">
-<meta property="og:image" content="https://www.camerababe.com/img/17.jpg">
+<meta property="og:description" content="Weddings, portraits & milestones, lifestyle, editorial and fashion, brand and commercial, and events photography.">
+<meta property="og:image" content="https://www.camerababe.com/img/24.jpg">
 <meta property="og:url" content="https://www.camerababe.com/portfolio.html">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Portfolio — camerababe">
-<meta name="twitter:description" content="Weddings, portraits & milestones, editorial, and brand photography.">
-<meta name="twitter:image" content="https://www.camerababe.com/img/17.jpg">
+<meta name="twitter:description" content="Weddings, portraits & milestones, lifestyle, editorial and fashion, brand and commercial, and events photography.">
+<meta name="twitter:image" content="https://www.camerababe.com/img/24.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX with your real Measurement ID from analytics.google.com once your GA4 property is set up. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -30,7 +39,9 @@
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="films.html">Films</a>
     <a href="services.html">Services</a>
+    <a href="policy.html">Policy</a>
     <a href="booking.html" class="cta">Book a shoot</a>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
@@ -44,10 +55,10 @@
 
 <!-- PAGE HERO -->
 <section class="page-hero">
-  <img class="page-hero-img" src="img/10.jpg" alt="Bride-to-be in a white bow-sleeved dress and layered pearls">
+  <img class="page-hero-img" src="img/24.jpg" alt="Bride in a long-sleeve lace gown with a detachable overskirt and train" fetchpriority="high" loading="eager" decoding="async">
   <div class="wrap page-hero-content">
     <p class="page-hero-eyebrow">Portfolio</p>
-    <h1>Seventeen frames, four categories</h1>
+    <h1>Fifty-five frames, six categories</h1>
     <p class="page-hero-sub">Pick a category to step through the full gallery, one photo at a time.</p>
   </div>
 </section>
@@ -60,29 +71,43 @@
       <a class="cat-tile" href="portfolio-weddings.html">
         <img src="img/17.jpg" alt="Weddings category cover" loading="lazy" decoding="async">
         <span class="cat-tile-label">
-          <span class="cat-count">4 stories</span>
+          <span class="cat-count">9 stories</span>
           <h3>Weddings</h3>
         </span>
       </a>
       <a class="cat-tile" href="portfolio-portraits.html">
         <img src="img/05.jpg" alt="Portraits and milestones category cover" loading="lazy" decoding="async">
         <span class="cat-tile-label">
-          <span class="cat-count">6 stories</span>
+          <span class="cat-count">18 stories</span>
           <h3>Portraits &amp; Milestones</h3>
         </span>
       </a>
+      <a class="cat-tile" href="portfolio-lifestyle.html">
+        <img src="img/22.jpg" alt="Lifestyle category cover" loading="lazy" decoding="async">
+        <span class="cat-tile-label">
+          <span class="cat-count">9 stories</span>
+          <h3>Lifestyle</h3>
+        </span>
+      </a>
       <a class="cat-tile" href="portfolio-editorial.html">
-        <img src="img/03.jpg" alt="Editorial category cover" loading="lazy" decoding="async">
+        <img src="img/03.jpg" alt="Editorial and fashion category cover" loading="lazy" decoding="async">
         <span class="cat-tile-label">
           <span class="cat-count">4 stories</span>
-          <h3>Editorial</h3>
+          <h3>Editorial and Fashion</h3>
         </span>
       </a>
       <a class="cat-tile" href="portfolio-brand.html">
-        <img src="img/15.jpg" alt="Brand category cover" loading="lazy" decoding="async">
+        <img src="img/15.jpg" alt="Brand and commercial category cover" loading="lazy" decoding="async">
         <span class="cat-tile-label">
-          <span class="cat-count">3 stories</span>
-          <h3>Brand</h3>
+          <span class="cat-count">5 stories</span>
+          <h3>Brand and Commercial</h3>
+        </span>
+      </a>
+      <a class="cat-tile" href="portfolio-events.html">
+        <img src="img/32.jpg" alt="Events category cover" loading="lazy" decoding="async">
+        <span class="cat-tile-label">
+          <span class="cat-count">10 stories</span>
+          <h3>Events</h3>
         </span>
       </a>
     </div>
@@ -118,6 +143,8 @@
           <h4>Explore</h4>
           <a href="index.html">Home</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="films.html">Films</a>
+          <a href="policy.html">Policy</a>
           <a href="booking.html">Book a shoot</a>
         </div>
       </div>

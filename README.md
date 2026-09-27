@@ -1,40 +1,60 @@
 # camerababe — Photography Studio Website
 
-A responsive, editorial-style portfolio and booking site built for **camerababe**, a wedding, traditional-ceremony, and milestone photography brand.
+A responsive, editorial-style photography business site for **camerababe** (Afridauhter Creations Limited), an Abuja-based studio shooting weddings, portraits, milestones, lifestyle, editorial/fashion, brand, and event photography.
 
-**Live site:** [camerababe.com](https://camerababe.com) *(update once launched)*
+**Live site:** [camerababe.com](https://camerababe.com)
 
 ---
 
 ## Overview
 
-Most small photography businesses end up with either a generic Squarespace template or a Linktree pointing at Instagram. This project was built to give camerababe something closer to a real editorial magazine spread — full-bleed imagery, a custom color system pulled directly from the actual photography, and a booking flow that turns visitors into inquiries.
+A 13-page static site built to feel like a real editorial magazine spread rather than a generic template — full-bleed imagery, a color and type system pulled from the studio's own photography, dedicated one-photo-at-a-time galleries per category, a working booking flow with live online payment, and a short-films page for video work.
 
 ## Features
 
-- **Fully responsive** — custom breakpoints at ~480px, ~780–900px, and 1280px+, with a dedicated mobile navigation pattern
-- **Editorial visual system** — a color palette and typography (Fraunces + Archivo) drawn from the brand's actual photography, not a generic template default
-- **Magazine-style portfolio grid** — 14 featured shoots in an alternating asymmetric layout, each with its own title and story copy
-- **Working booking form** — captures event type, date, location, and details; integrated with [Formspree](https://formspree.io) for reliable delivery regardless of the visitor's email setup
-- **Performance-conscious** — compressed images, lazy-loading below the fold, and a hero image that loads eagerly for fast first paint
-- **Accessible markup** — descriptive alt text on every image, visible focus states on all interactive elements, `prefers-reduced-motion` support
-- **SEO-ready** — meta description, Open Graph and Twitter Card tags for clean link previews when shared on social platforms
-- **Custom branding** — logo mark integrated into navigation, footer, and browser favicon
+- **Fully responsive** — custom breakpoints for mobile, tablet, and desktop, with a dedicated mobile navigation pattern
+- **Editorial visual system** — a color palette and typography (Fraunces + Archivo) drawn from the studio's actual photography
+- **Six dedicated portfolio categories** — Weddings, Portraits & Milestones, Lifestyle, Editorial and Fashion, Brand and Commercial, and Events, each its own gallery page with a step-through viewer and a real story behind every photo
+- **Films page** — short films and behind-the-scenes clips, played as native HTML5 video with poster thumbnails
+- **Live booking + payments** — a booking form (via Formspree) plus an on-page Paystack checkout for deposits, with direct bank transfer as a backup option
+- **Client reviews** — a review submission form (via Formspree), moderated before publishing
+- **Light / dark mode** — toggle in the header, remembered per visitor and applied before first paint
+- **Performance-conscious** — compressed images, lazy-loading below the fold, hero images that load eagerly for fast first paint
+- **Accessible markup** — descriptive alt text on every image, visible focus states on all interactive elements
+- **SEO-ready** — meta description, Open Graph and Twitter Card tags, sitemap.xml and robots.txt
+- **Analytics** — Google Analytics (GA4) wired into every page, with custom events for booking submissions and Paystack checkout
 
 ## Tech stack
 
 - **HTML5 / CSS3** — no framework; custom design system built from scratch
-- **Vanilla JavaScript** — mobile nav toggle, scroll-based header state, form handling
-- **Formspree** — backend-free form submission handling
+- **Vanilla JavaScript** — mobile nav toggle, theme toggle, portfolio viewer, form handling, Paystack checkout
+- **Paystack Inline** — live deposit payments by card, bank transfer, or USSD
+- **Formspree** — backend-free booking and review form submission
 - **Google Fonts** — Fraunces (display) and Archivo (body/UI)
 - **Hosted on Netlify**, connected to this repository for continuous deployment
 
 ## Project structure
 
 ```
-├── index.html          # Main site (single page)
-├── img/                 # Portfolio photography, logo, and favicon assets
-└── README.md
+├── index.html                    # Home
+├── about.html                    # About the photographer
+├── portfolio.html                # Portfolio hub (six category tiles)
+├── portfolio-weddings.html       # Weddings gallery
+├── portfolio-portraits.html      # Portraits & Milestones gallery
+├── portfolio-lifestyle.html      # Lifestyle gallery
+├── portfolio-editorial.html      # Editorial and Fashion gallery
+├── portfolio-brand.html          # Brand and Commercial gallery
+├── portfolio-events.html         # Events gallery
+├── films.html                    # Short films and behind-the-scenes video
+├── services.html                 # Rate card, packages, FAQ
+├── policy.html                   # Booking, cancellation, and payment terms
+├── booking.html                  # Booking form + Paystack checkout + bank details
+├── main.js                       # Nav, theme toggle, portfolio viewer, forms, payment
+├── styles.css                    # Full design system
+├── img/                          # Portfolio photography, poster frames, logo, favicons
+├── videos/                       # Film clips
+├── sitemap.xml / robots.txt      # SEO
+└── _headers                      # Netlify security headers
 ```
 
 ## Running locally
@@ -42,8 +62,8 @@ Most small photography businesses end up with either a generic Squarespace templ
 No build step required — it's a static site.
 
 ```bash
-git clone https://github.com/<your-username>/camerababe-site.git
-cd camerababe-site
+git clone https://github.com/cyberdoncode/Camerababe-site.git
+cd Camerababe-site
 ```
 
 Then just open `index.html` in a browser, or serve it locally with any static server, e.g.:

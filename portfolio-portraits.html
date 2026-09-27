@@ -19,8 +19,17 @@
 <meta name="twitter:image" content="https://www.camerababe.com/img/05.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX with your real Measurement ID from analytics.google.com once your GA4 property is set up. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -30,7 +39,9 @@
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="films.html">Films</a>
     <a href="services.html">Services</a>
+    <a href="policy.html">Policy</a>
     <a href="booking.html" class="cta">Book a shoot</a>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
@@ -46,7 +57,7 @@
 <section class="viewer">
   <div class="wrap viewer-top">
     <div>
-      <span class="viewer-eyebrow">Portfolio — Category 2 of 4</span>
+      <span class="viewer-eyebrow">Portfolio — Category 2 of 6</span>
       <h1>Portraits & Milestones</h1>
     </div>
     <a href="portfolio.html" class="viewer-back">All categories</a>
@@ -90,6 +101,8 @@
           <h4>Explore</h4>
           <a href="index.html">Home</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="films.html">Films</a>
+          <a href="policy.html">Policy</a>
           <a href="booking.html">Book a shoot</a>
         </div>
       </div>
@@ -102,13 +115,7 @@
 </footer>
 
 <script>
-  window.PORTFOLIO_VIEWER = {
-    photos: [{"src": "img/01.jpg", "alt": "Two sisters in black outfits, a deliberately styled editorial pose against a wall", "num": "01 \u2014 Sisters", "title": "A pose built on purpose", "text": "These two are sisters, not strangers to the camera \u2014 and that pose was fully planned, right down to the framing. Sometimes the strongest shot comes from a clear idea, not a happy accident."}, {"src": "img/05.jpg", "alt": "Maternity shoot in a white dress among rocks and a stream", "num": "02 \u2014 New Life", "title": "Waiting on a whole new life", "text": "This wasn't just a maternity shoot \u2014 it was a portrait of a life about to change completely. Bare feet finding balance on wet stone, hands raised like she's already holding what's coming. Some sessions are about a look; this one was about a beginning."}, {"src": "img/06.jpg", "alt": "Birthday celebration with a floral cake", "num": "03 \u2014 Birthday", "title": "A birthday, properly celebrated", "text": "Birthdays deserve more than a quick phone snap of the cake. This session was about the whole feeling of the day \u2014 the candles, her name iced across the cake, the joy of being celebrated on purpose. Small joys deserve the same care as the big ones."}, {"src": "img/08.jpg", "alt": "Graduation portrait in cap and gown, seated at a desk", "num": "04 \u2014 Conferred", "title": "Making the years show", "text": "A graduation portrait has one job: make the years show. The gown does the talking \u2014 I just find the light that makes the tassel catch."}, {"src": "img/12.jpg", "alt": "Family portrait of four outdoors among trees", "num": "05 \u2014 Four, Outdoors", "title": "Waiting out the toddler and the wind", "text": "Family sessions live or die on patience \u2014 waiting out the toddler, the wind, the one good smile from everyone at once. Worth every extra frame it takes to get there."}, {"src": "img/18.jpg", "alt": "Woman in mint traditional attire showing off fresh henna on her hands", "num": "06 \u2014 Henna & Lace", "title": "A little detail worth its own moment", "text": "Fresh henna deserves better than a quick phone photo before it fades. This session was just about the detail itself \u2014 mint fabric, gold jewelry, and hands worth showing off."}],
-    backHref: "portfolio.html",
-    backLabel: "Back to Portfolio",
-    nextHref: "portfolio-editorial.html",
-    nextLabel: "Next: Editorial"
-  };
+  window.PORTFOLIO_VIEWER = {"photos": [{"src": "img/01.jpg", "alt": "Two sisters in black outfits, a deliberately styled editorial pose against a wall", "num": "01 — Sisters", "title": "A pose built on purpose", "text": "These two are sisters, not strangers to the camera — and that pose was fully planned, right down to the framing. Sometimes the strongest shot comes from a clear idea, not a happy accident."}, {"src": "img/05.jpg", "alt": "Maternity shoot in a white dress among rocks and a stream", "num": "02 — New Life", "title": "Waiting on a whole new life", "text": "This wasn't just a maternity shoot — it was a portrait of a life about to change completely. Bare feet finding balance on wet stone, hands raised like she's already holding what's coming. Some sessions are about a look; this one was about a beginning."}, {"src": "img/06.jpg", "alt": "Birthday celebration with a floral cake", "num": "03 — Birthday", "title": "A birthday, properly celebrated", "text": "Birthdays deserve more than a quick phone snap of the cake. This session was about the whole feeling of the day — the candles, her name iced across the cake, the joy of being celebrated on purpose. Small joys deserve the same care as the big ones."}, {"src": "img/08.jpg", "alt": "Graduation portrait in cap and gown, seated at a desk", "num": "04 — Conferred", "title": "Making the years show", "text": "A graduation portrait has one job: make the years show. The gown does the talking — I just find the light that makes the tassel catch."}, {"src": "img/12.jpg", "alt": "Family portrait of four outdoors among trees", "num": "05 — Four, Outdoors", "title": "Waiting out the toddler and the wind", "text": "Family sessions live or die on patience — waiting out the toddler, the wind, the one good smile from everyone at once. Worth every extra frame it takes to get there."}, {"src": "img/18.jpg", "alt": "Woman in mint traditional attire showing off fresh henna on her hands", "num": "06 — Henna & Lace", "title": "A little detail worth its own moment", "text": "Fresh henna deserves better than a quick phone photo before it fades. This session was just about the detail itself — mint fabric, gold jewelry, and hands worth showing off."}, {"src": "img/10.jpg", "alt": "Woman in a white bow-sleeved dress and layered pearls, luxury interior", "num": "07 — Pearls, No Occasion Needed", "title": "Sometimes the dress is the whole reason", "text": "White doesn't have to mean bridal. Pearls stacked high and a dress built for drama, worn purely because she wanted the photos, not because there was an event to match."}, {"src": "img/26.jpg", "alt": "Pregnant woman outdoors under a tree with baby clothes hanging on a line and a picnic basket", "num": "08 — Almost Here", "title": "Counting down under the trees", "text": "A baby shower picnic doubling as a maternity session — tiny clothes strung up on a line, a basket of fruit, and a countdown that's clearly almost over."}, {"src": "img/28.jpg", "alt": "Woman holding a large bouquet of red roses in front of a floral wall and neon sign", "num": "09 — Another Year, Bigger Flowers", "title": "A birthday that went all out", "text": "A neon sign, a wall of roses, and a bouquet bigger than most brides carry — this is what happens when a birthday gets the full production treatment."}, {"src": "img/29.jpg", "alt": "Woman in a leopard print robe surrounded by rose petals, balloons, and a cake box", "num": "10 — A Birthday Built Around Her", "title": "Self-care, styled properly", "text": "Rose petals scattered across the couch, balloons overhead, a cake still in the box — the kind of birthday portrait built entirely around one person taking the day for herself."}, {"src": "img/35.jpg", "alt": "Two women in a strapless pink gown and a plunging blue gown posing together in a modern kitchen", "num": "11 — Girls' Night In", "title": "Main-character energy doesn't need a red carpet", "text": "Getting-ready photos before a night out, except the kitchen island did more work as a backdrop than most studios manage. Two friends, two very different dresses, one shared understanding that the photos matter as much as the party."}, {"src": "img/38.jpg", "alt": "Three family members dressed for a black-tie event, posed together in front of draped curtains", "num": "12 — Dressed for the Occasion", "title": "A portrait for people who clean up well", "text": "Black tie brings out a different kind of family portrait — everyone pressed and polished, five minutes carved out before the event actually starts. Simple backdrop, on purpose, so the outfits get to do the talking."}, {"src": "img/41.jpg", "alt": "Pregnant woman in a black ruffled gown posing between large letters spelling MOM", "num": "13 — Spelling It Out", "title": "A milestone that announces itself", "text": "Some maternity shoots whisper, this one was built to state the obvious in three bold letters. Clean backdrop, a gown that left no doubt about the occasion, and a concept she brought to me fully formed — my job was just lighting it right."}, {"src": "img/44.jpg", "alt": "Woman in a pale yellow lace gown posing on a balcony railing at sunset", "num": "14 — Golden Hour, Actually Gold", "title": "Waiting for the sky to cooperate", "text": "We timed this one around the sunset and got lucky — the whole sky turned the same shade as the dress. A balcony railing, a view of rooftops behind her, and about four usable minutes before the light dropped."}, {"src": "img/45.jpg", "alt": "Woman in hair rollers and a silver fur-trimmed robe lounging beside a birthday cake and pink balloons", "num": "15 — Getting Ready Is Part of the Story", "title": "The cake came out before the hair was even done", "text": "Rollers still in, robe still on, cake already sitting there reading \"Baddies Don't Age\" in icing. The full glam shots came later — this one's for the in-between, which is usually more her than the polished version anyway."}, {"src": "img/47.jpg", "alt": "Woman in a pink floral sequined dress celebrating her birthday at a table, cake in front of her while friends take photos on their phones", "num": "16 — Surrounded, On Purpose", "title": "The birthday girl and everyone documenting her", "text": "Pink balloons, a cake with candles already lit, and half the table holding up a phone the second she looked up. My job that night was making sure at least one of those cameras was actually good."}, {"src": "img/50.jpg", "alt": "Six women in matching red aso-ebi and gele posing together with a young child on a sofa in front of gold curtains", "num": "17 — Six Women, One Red", "title": "A family portrait that took real coordination", "text": "Getting six people into matching aso-ebi and holding still at the same moment — including a toddler — is its own kind of directing. Worth it for a portrait this coordinated, gold curtains and all."}, {"src": "img/51.jpg", "alt": "Woman in a gold sequined halter gown standing in an arched wooden shutter doorway, one hand on the door frame", "num": "18 — Framed by the Doorway", "title": "Sometimes the entrance is the shot", "text": "An arched double door built out of old wooden shutters was never going to be a plain hallway — it was always going to be a frame. Gold on gold, one hand on the door, and a look that says she knew exactly what she was walking into."}], "backHref": "portfolio.html", "backLabel": "Back to Portfolio", "nextHref": "portfolio-lifestyle.html", "nextLabel": "Next: Lifestyle"};
 </script>
 <script src="main.js"></script>
 </body>

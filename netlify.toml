@@ -1,0 +1,18 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# So the front end can call the API at a clean path instead of the raw
+# /.netlify/functions/... URL.
+[[redirects]]
+  from = "/api/save-booking"
+  to = "/.netlify/functions/save-booking"
+  status = 200
+
+[[redirects]]
+  from = "/api/verify-deposit"
+  to = "/.netlify/functions/verify-deposit"
+  status = 200

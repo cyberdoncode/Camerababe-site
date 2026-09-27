@@ -19,8 +19,19 @@
 <meta name="twitter:image" content="https://www.camerababe.com/img/17.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Paystack Inline -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX with your real Measurement ID from analytics.google.com once your GA4 property is set up. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -30,7 +41,9 @@
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="portfolio.html">Portfolio</a>
+    <a href="films.html">Films</a>
     <a href="services.html">Services</a>
+    <a href="policy.html">Policy</a>
     <a href="booking.html" class="cta active">Book a shoot</a>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
@@ -44,7 +57,7 @@
 
 <!-- PAGE HERO -->
 <section class="page-hero">
-  <img class="page-hero-img" src="img/17.jpg" alt="Bride and groom embracing on a staircase">
+  <img class="page-hero-img" src="img/17.jpg" alt="Bride and groom embracing on a staircase" fetchpriority="high" loading="eager" decoding="async">
   <div class="wrap page-hero-content">
     <p class="page-hero-eyebrow">Booking</p>
     <h1>Tell me the date. I'll bring the light.</h1>
@@ -61,14 +74,87 @@
       <p>Fill in a few details about your event and I'll get back to you with availability and a quote. The more specific you are about the day, the faster I can put together a plan.</p>
       <p class="booking-quote">"I'd rather shoot one honest expression than fifty polite ones."</p>
 
-      <div class="payment-box">
+      <div class="payment-box" id="paymentBox">
         <h4>How booking works</h4>
         <p>A deposit secures your date — 50% for portrait and event sessions, 70% for weddings. The remaining balance is due on the day of the shoot. Your date is only confirmed once the deposit clears.</p>
-        <div class="bank-details">
-          <strong>Bank:</strong> United Bank for Africa<br>
-          <strong>Account name:</strong> Afridauhter Creations Limited<br>
-          <strong>Account number:</strong> 1027789419
-        </div>
+
+        <button type="button" class="btn solid" id="payDepositBtn">Pay deposit now</button>
+
+        <form class="pay-deposit-form" id="payDepositForm">
+          <p class="pay-deposit-note">Pick what you're booking, then continue to Paystack's secure checkout to pay your deposit by card, bank transfer, or USSD.</p>
+
+          <div class="field">
+            <label for="packageSelect">What are you booking?</label>
+            <select id="packageSelect" name="packageSelect" required>
+              <option value="" disabled selected>Select a package</option>
+              <optgroup label="iPhone Photoshoot">
+                <option value="iphone-1" data-price="40000">1 outfit — 5 edited photos — ₦40,000</option>
+              </optgroup>
+              <optgroup label="Digital Camera Photoshoot">
+                <option value="dslr-1" data-price="70000">1 outfit — 5 edited photos — ₦70,000</option>
+              </optgroup>
+              <optgroup label="Outfit Bundle — iPhone">
+                <option value="iphone-2" data-price="75000">2 outfits — 9 edited photos — ₦75,000</option>
+                <option value="iphone-3" data-price="110000">3 outfits — 13 edited photos — ₦110,000</option>
+              </optgroup>
+              <optgroup label="Outfit Bundle — Digital Camera">
+                <option value="dslr-2" data-price="140000">2 outfits — 9 edited photos — ₦140,000</option>
+                <option value="dslr-3" data-price="200000">3 outfits — 13 edited photos — ₦200,000</option>
+              </optgroup>
+              <optgroup label="Video &amp; Reels">
+                <option value="reel-iphone" data-price="30000">iPhone reel — ₦30,000</option>
+                <option value="reel-couple" data-price="60000">Couple reel — ₦60,000</option>
+                <option value="reel-dslr" data-price="100000" data-from="1">Digital camera reel — from ₦100,000</option>
+                <option value="video-edit" data-price="15000">Video editing only (you supply footage) — ₦15,000</option>
+              </optgroup>
+              <optgroup label="Mini Event Coverage">
+                <option value="event-video" data-price="100000" data-from="1">Mobile videography, up to 4 hours — from ₦100,000</option>
+                <option value="event-photo" data-price="150000" data-from="1">Event photography — from ₦150,000</option>
+              </optgroup>
+              <optgroup label="Family Portraits — Digital Camera">
+                <option value="family-dslr-3" data-price="120000">Up to 3 people — ₦120,000</option>
+                <option value="family-dslr-5" data-price="160000">Up to 5 people — ₦160,000</option>
+                <option value="family-dslr-8" data-price="220000">Up to 8 people — ₦220,000</option>
+              </optgroup>
+              <optgroup label="Family Portraits — iPhone">
+                <option value="family-iphone-3" data-price="80000">Up to 3 people — ₦80,000</option>
+                <option value="family-iphone-5" data-price="110000">Up to 5 people — ₦110,000</option>
+                <option value="family-iphone-8" data-price="150000">Up to 8 people — ₦150,000</option>
+              </optgroup>
+              <optgroup label="Weddings &amp; Larger Events">
+                <option value="custom" data-price="0" data-custom="1">Custom quote — I'll enter my own amount</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="deposit-summary" id="depositSummary" style="display:none;">
+            <div class="deposit-line full"><span>Full session price</span><span id="fullPriceDisplay"></span></div>
+            <div class="deposit-line highlight"><span id="depositLabel">Deposit due now</span><span id="depositAmountDisplay"></span></div>
+            <p class="deposit-note" id="depositFromNote"></p>
+          </div>
+
+          <div class="field" id="customAmountField" style="display:none;">
+            <label for="payAmount">Deposit amount (₦)</label>
+            <input type="number" id="payAmount" name="payAmount" placeholder="e.g. 200000" min="1000" step="1">
+          </div>
+
+          <div class="field">
+            <label for="payEmail">Email</label>
+            <input type="email" id="payEmail" name="payEmail" placeholder="you@email.com" required>
+          </div>
+          <button type="submit" class="btn solid" id="payNowBtn">Continue to Paystack</button>
+          <div class="confirm-msg" id="payConfirmMsg"></div>
+        </form>
+
+        <details class="bank-toggle">
+          <summary>Prefer a direct bank transfer?</summary>
+          <div class="bank-details">
+            <strong>Bank:</strong> United Bank for Africa<br>
+            <strong>Account name:</strong> Afridauhter Creations Limited<br>
+            <strong>Account number:</strong> 1027789419
+          </div>
+          <p style="margin-top:0.9rem;">Send your deposit to the account above and share the receipt — I'll confirm as soon as it clears.</p>
+        </details>
       </div>
     </div>
 
@@ -198,6 +284,8 @@
           <h4>Explore</h4>
           <a href="index.html">Home</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="films.html">Films</a>
+          <a href="policy.html">Policy</a>
           <a href="booking.html">Book a shoot</a>
         </div>
       </div>

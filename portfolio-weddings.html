@@ -19,8 +19,17 @@
 <meta name="twitter:image" content="https://www.camerababe.com/img/17.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX with your real Measurement ID from analytics.google.com once your GA4 property is set up. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -30,7 +39,9 @@
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="portfolio.html" class="active">Portfolio</a>
+    <a href="films.html">Films</a>
     <a href="services.html">Services</a>
+    <a href="policy.html">Policy</a>
     <a href="booking.html" class="cta">Book a shoot</a>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
@@ -46,7 +57,7 @@
 <section class="viewer">
   <div class="wrap viewer-top">
     <div>
-      <span class="viewer-eyebrow">Portfolio — Category 1 of 4</span>
+      <span class="viewer-eyebrow">Portfolio — Category 1 of 6</span>
       <h1>Weddings</h1>
     </div>
     <a href="portfolio.html" class="viewer-back">All categories</a>
@@ -90,6 +101,8 @@
           <h4>Explore</h4>
           <a href="index.html">Home</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="films.html">Films</a>
+          <a href="policy.html">Policy</a>
           <a href="booking.html">Book a shoot</a>
         </div>
       </div>
@@ -102,13 +115,7 @@
 </footer>
 
 <script>
-  window.PORTFOLIO_VIEWER = {
-    photos: [{"src": "img/02.jpg", "alt": "Traditional ceremony, couple in red regalia holding ceremonial items", "num": "01 \u2014 Traditional Rites", "title": "Every detail earns its close-up", "text": "Traditional ceremonies move fast and carry a lot of meaning in small details \u2014 the beadwork, the regalia, the way a couple holds themselves once they're officially presented. Those are the frames I stay ready for."}, {"src": "img/04.jpg", "alt": "Bride in a red lace gown and traditional headwrap in an opulent interior", "num": "02 \u2014 The Second Outfit", "title": "Five minutes before the reception", "text": "A lot of brides change outfits at least once, and the second look always feels a little like a secret. Gold light, a quiet room, and a few minutes before it fills back up with guests."}, {"src": "img/10.jpg", "alt": "Bride-to-be in a white bow-sleeved dress and layered pearls, luxury interior", "num": "03 \u2014 White On White", "title": "Bridal, without the wedding day pressure", "text": "Not every white-dress moment has to happen on the actual wedding day. This one was pure pre-wedding indulgence \u2014 pearls stacked high, a dress built for drama, and none of the timeline stress a real ceremony comes with."}, {"src": "img/17.jpg", "alt": "Bride and groom embracing on a staircase at GOLifestyle House", "num": "04 \u2014 Held Close", "title": "The embrace before the reception", "text": "Shot at GOLifestyle House, in the minute right after the formal photos wrapped and they just held onto each other instead. Some of the best wedding images happen the second no one's posing anymore."}],
-    backHref: "portfolio.html",
-    backLabel: "Back to Portfolio",
-    nextHref: "portfolio-portraits.html",
-    nextLabel: "Next: Portraits & Milestones"
-  };
+  window.PORTFOLIO_VIEWER = {"photos": [{"src": "img/02.jpg", "alt": "Traditional ceremony, couple in red regalia holding ceremonial items", "num": "01 — Traditional Rites", "title": "Every detail earns its close-up", "text": "Traditional ceremonies move fast and carry a lot of meaning in small details — the beadwork, the regalia, the way a couple holds themselves once they're officially presented. Those are the frames I stay ready for."}, {"src": "img/21.jpg", "alt": "Bride and groom holding hands under a white colonnade, groom in a navy suit", "num": "02 — Under the Colonnade", "title": "Two people who already know their angles", "text": "Some couples need a lot of direction in front of the camera, some just need space to be themselves. This one mostly needed the second."}, {"src": "img/24.jpg", "alt": "Bride in a long-sleeve lace gown with a detachable overskirt and train, indoors", "num": "03 — The Big Reveal", "title": "A silhouette built for a full turn", "text": "Long sleeves, sheer lace, and a detachable overskirt that made the reveal its own little moment before the reception even started."}, {"src": "img/25.jpg", "alt": "Guest in a metallic green and pink gown with a matching head wrap and coral beads", "num": "04 — Aso-Ebi, Elevated", "title": "The guest who came dressed to compete", "text": "Wedding season has its own dress code, and this one didn't just meet it — metallic fabric, a matching head wrap, and coral beads stacked high enough to hold their own next to the bride."}, {"src": "img/17.jpg", "alt": "Bride and groom embracing on a staircase at GOLifestyle House", "num": "05 — Held Close", "title": "The embrace before the reception", "text": "Shot at GOLifestyle House, in the minute right after the formal photos wrapped and they just held onto each other instead. Some of the best wedding images happen the second no one's posing anymore."}, {"src": "img/37.jpg", "alt": "Couple in matching white loungewear sitting close together on a sofa in a plant-filled loft", "num": "06 — Just the Two of Them", "title": "The quiet side of a wedding story", "text": "Not every wedding photo needs a crowd, a gown, or an aisle. Matching white, a loft full of plants, and thirty minutes carved out just for them to sit close and be a couple instead of the two people everyone's been asking to pose all day."}, {"src": "img/40.jpg", "alt": "Bride in a gold veiled gown standing beside her seated groom in white and gold agbada", "num": "07 — Two Portraits, One Frame", "title": "Formal doesn't have to mean stiff", "text": "A classic standing-and-seated portrait, the kind every couple ends up wanting eventually — but it only works if both people are actually comfortable holding still that long. These two made it easy."}, {"src": "img/42.jpg", "alt": "Bride in a black lace gown and red gele leaning close to her groom in a dark agbada, palms behind them", "num": "08 — Red and Black, Bold Choice", "title": "A couple who trusted the color story", "text": "Red gele against all black is not a safe choice, and that's exactly why it works here. Shot just outside, under a row of palms, in the ten minutes between the ceremony ending and the reception starting."}, {"src": "img/54.jpg", "alt": "Pregnant woman in a navy sequined gown standing with her husband in a matching navy agbada and cap, holding a ceremonial cane, on an outdoor spiral staircase", "num": "09 — Navy, Matched on Purpose", "title": "A couple who coordinated down to the last detail", "text": "Matching navy, a ceremonial cane, and a spiral staircase that gave the whole portrait somewhere to lead the eye. Every part of this shoot was clearly planned out before I ever arrived."}], "backHref": "portfolio.html", "backLabel": "Back to Portfolio", "nextHref": "portfolio-portraits.html", "nextLabel": "Next: Portraits & Milestones"};
 </script>
 <script src="main.js"></script>
 </body>

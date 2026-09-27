@@ -19,8 +19,17 @@
 <meta name="twitter:image" content="https://www.camerababe.com/img/14.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Archivo:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Archivo:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<!-- Google Analytics (GA4) -->
+<!-- Replace G-XXXXXXXXXX with your real Measurement ID from analytics.google.com once your GA4 property is set up. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 </head>
 <body>
 
@@ -30,7 +39,9 @@
     <a href="index.html">Home</a>
     <a href="about.html" class="active">About</a>
     <a href="portfolio.html">Portfolio</a>
+    <a href="films.html">Films</a>
     <a href="services.html">Services</a>
+    <a href="policy.html">Policy</a>
     <a href="booking.html" class="cta">Book a shoot</a>
   </nav>
   <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark mode">
@@ -44,7 +55,7 @@
 
 <!-- PAGE HERO -->
 <section class="page-hero">
-  <img class="page-hero-img" src="img/14.jpg" alt="Editorial portrait among greenery, red lipstick and gold jewelry">
+  <img class="page-hero-img" src="img/14.jpg" alt="Editorial portrait among greenery, red lipstick and gold jewelry" fetchpriority="high" loading="eager" decoding="async">
   <div class="wrap page-hero-content">
     <p class="page-hero-eyebrow">About</p>
     <h1>The eye behind camerababe</h1>
@@ -123,6 +134,8 @@
           <h4>Explore</h4>
           <a href="index.html">Home</a>
           <a href="portfolio.html">Portfolio</a>
+          <a href="films.html">Films</a>
+          <a href="policy.html">Policy</a>
           <a href="booking.html">Book a shoot</a>
         </div>
       </div>
