@@ -343,6 +343,10 @@ document.addEventListener('DOMContentLoaded', function () {
       })
       .catch(function () { /* non-fatal — see comment above */ });
 
+      // Sends the request through Formspree only — never opens the visitor's
+      // email app. Whatever happens with this request, the visitor still
+      // gets moved into the payment picker right after (see .finally below),
+      // since paying a deposit doesn't depend on the notification email.
       fetch('https://formspree.io/f/mdekaajw', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
@@ -358,36 +362,22 @@ document.addEventListener('DOMContentLoaded', function () {
             gtag('event', 'book_submit', { shoot_type: eventType || 'Unspecified' });
           }
           form.reset();
-          promptForDeposit();
         } else {
           throw new Error('Submission failed');
         }
       })
       .catch(() => {
-        const subject = encodeURIComponent(`Booking request: ${eventType || 'Shoot'} — ${name}`);
-        const body = encodeURIComponent(
-`Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Type of shoot: ${eventType}
-Preferred date: ${date}
-Location: ${location}
-
-Details:
-${message}`
-        );
-        window.location.href = `mailto:afridauhtercreationsltd@camerababe.com?subject=${subject}&body=${body}`;
         if (confirmMsg) {
-          confirmMsg.textContent = "Your email app should now be open with your request ready to send. If it didn't open, email afridauhtercreationsltd@camerababe.com directly. You can also lock in your date now — pick your package below and pay your deposit.";
+          confirmMsg.innerHTML = 'Your request didn\'t go through automatically — please email <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a> directly so nothing gets missed. You can still lock in your date now — pick your package below and pay your deposit.';
           confirmMsg.classList.add('show');
         }
         if (typeof gtag === 'function') {
           gtag('event', 'book_submit_fallback', { shoot_type: eventType || 'Unspecified' });
         }
-        promptForDeposit();
       })
       .finally(() => {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send booking request'; }
+        promptForDeposit();
       });
     });
   }
