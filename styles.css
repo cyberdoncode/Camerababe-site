@@ -636,3 +636,32 @@ footer{ background:var(--ink); color:var(--text-muted); padding:4rem 0 2.4rem; }
 .footer-col a, .footer-col span{ display:block; font-size:0.92rem; margin-bottom:0.55rem; color:var(--text-muted); }
 .footer-col a:hover{ color:var(--text-on-ink); }
 .footer-bottom{ display:flex; justify-content:space-between; padding-top:1.6rem; font-size:0.8rem; flex-wrap:wrap; gap:0.6rem; }
+
+/* ---------- MOTION LAYER (motion.js) ---------- */
+/* Word-mask text reveal: each word sits behind its own overflow-hidden
+   mask so it can be animated up into place without affecting layout. */
+.word-mask{ display:inline-block; overflow:hidden; vertical-align:top; }
+.word-mask .word{ display:inline-block; will-change:transform; }
+
+/* Image wipe-reveal panel — added as a sibling of the <img> inside tiles
+   that already have position:relative; overflow:hidden (.featured-item,
+   .cat-tile), so no markup changes were needed. pointer-events:none means
+   it can never block a click even if a script error leaves it on screen. */
+.reveal-img-mask{
+  position:absolute; inset:0; z-index:5; background:var(--ink);
+  transform-origin:left center; pointer-events:none;
+}
+
+/* Cursor accent — layered on top of the real system cursor (never hides
+   it), so it stays safe to use while typing into the booking form. */
+.cursor-dot, .cursor-ring{
+  position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+  border-radius:50%; transform:translate(-50%,-50%); will-change:transform;
+}
+.cursor-dot{ width:7px; height:7px; background:var(--gold-light); }
+.cursor-ring{
+  width:34px; height:34px; border:1px solid var(--gold-light); opacity:0.65;
+  transition:width .25s ease, height .25s ease, opacity .25s ease;
+}
+.cursor-ring.is-hover{ width:58px; height:58px; opacity:1; }
+@media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none; } }
