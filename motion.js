@@ -120,7 +120,17 @@
     const revealSelectors = [
       '.section-head', '.home-intro-grid > div', '.teaser-card',
       '.lede', '.home-intro p', '.cta-band h2', '.cta-band p', '.cta-band .btn',
-      '.portfolio-intro p'
+      '.portfolio-intro p',
+      // About
+      '.about-figure', '.about-copy p', '.value-card',
+      // Films
+      '.film-card',
+      // Services
+      '.service', '.rate-panel', '.rate-simple-group', '.family-block',
+      // Policy / Services FAQ
+      '.faq-item',
+      // Booking
+      '.booking-quote', '.t-grid > *', '.review-intro'
     ];
     document.querySelectorAll(revealSelectors.join(',')).forEach(function (el) {
       gsap.set(el, { opacity: 0, y: 34 });
