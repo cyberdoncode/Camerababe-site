@@ -309,7 +309,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 400);
   }
 
-  // Booking form -> Formspree
+  // Booking form -> our own API (reliable: saves it + emails the studio via
+  // Resend). Formspree is kept only as a silent backup copy — it no longer
+  // decides what message the visitor sees, since it's proven unreliable.
   const form = document.getElementById('bookForm');
   const confirmMsg = document.getElementById('confirmMsg');
   if (form) {
@@ -326,10 +328,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
-      // Save a structured record of this inquiry to the booking database.
-      // Runs alongside the Formspree email below, not instead of it — if the
-      // API isn't reachable (e.g. this preview isn't on Netlify yet), this
-      // just quietly fails and the Formspree email flow still works.
+      // Silent backup copy only — never affects what the visitor sees.
+      fetch('https://formspree.io/f/mdekaajw', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, eventType, date, location, message })
+      }).catch(function () {});
+
+      // The real, reliable path — this is what the visitor's message is
+      // based on. Whatever happens, they still get moved into the payment
+      // picker right after (see .finally below).
       fetch('/api/save-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -340,33 +348,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (result && result.bookingId) {
           try { sessionStorage.setItem('camerababe_bookingId', result.bookingId); } catch (e) {}
         }
-      })
-      .catch(function () { /* non-fatal — see comment above */ });
-
-      // Sends the request through Formspree only — never opens the visitor's
-      // email app. Whatever happens with this request, the visitor still
-      // gets moved into the payment picker right after (see .finally below),
-      // since paying a deposit doesn't depend on the notification email.
-      fetch('https://formspree.io/f/mdekaajw', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, eventType, date, location, message })
-      })
-      .then(res => {
-        if (res.ok) {
-          if (confirmMsg) {
-            confirmMsg.textContent = "Thank you — your booking request has been sent. To lock in your date right away, pick your package below and pay your deposit — otherwise I'll get back to you within 24–48 hours.";
-            confirmMsg.classList.add('show');
-          }
-          if (typeof gtag === 'function') {
-            gtag('event', 'book_submit', { shoot_type: eventType || 'Unspecified' });
-          }
-          form.reset();
-        } else {
-          throw new Error('Submission failed');
+        if (confirmMsg) {
+          confirmMsg.textContent = "Thank you — your booking request has been sent. To lock in your date right away, pick your package below and pay your deposit — otherwise I'll get back to you within 24–48 hours.";
+          confirmMsg.classList.add('show');
         }
+        if (typeof gtag === 'function') {
+          gtag('event', 'book_submit', { shoot_type: eventType || 'Unspecified' });
+        }
+        form.reset();
       })
-      .catch(() => {
+      .catch(function () {
         if (confirmMsg) {
           confirmMsg.innerHTML = 'Your request didn\'t go through automatically — please email <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a> directly so nothing gets missed. You can still lock in your date now — pick your package below and pay your deposit.';
           confirmMsg.classList.add('show');
@@ -375,14 +366,15 @@ document.addEventListener('DOMContentLoaded', function () {
           gtag('event', 'book_submit_fallback', { shoot_type: eventType || 'Unspecified' });
         }
       })
-      .finally(() => {
+      .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send booking request'; }
         promptForDeposit();
       });
     });
   }
 
-  // Review form -> Formspree
+  // Review form -> our own API (same reliable pattern as bookings). Formspree
+  // is kept only as a silent backup copy.
   const reviewForm = document.getElementById('reviewForm');
   const reviewConfirmMsg = document.getElementById('reviewConfirmMsg');
   if (reviewForm) {
@@ -396,39 +388,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
+      // Silent backup copy only — never affects what the visitor sees.
       fetch('https://formspree.io/f/xljdggvz', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: rName, shootType: rShoot, rating: rRating, review: rText })
-      })
-      .then(res => {
-        if (res.ok) {
-          if (reviewConfirmMsg) {
-            reviewConfirmMsg.textContent = 'Thank you — your review has been sent for approval.';
-            reviewConfirmMsg.classList.add('show');
-          }
-          reviewForm.reset();
-        } else {
-          throw new Error('Submission failed');
-        }
-      })
-      .catch(() => {
-        const subject = encodeURIComponent(`New review: ${rShoot || 'Shoot'} — ${rName}`);
-        const body = encodeURIComponent(
-`Name: ${rName}
-Type of shoot: ${rShoot}
-Rating: ${rRating}
+      }).catch(function () {});
 
-Review:
-${rText}`
-        );
-        window.location.href = `mailto:afridauhtercreationsltd@camerababe.com?subject=${subject}&body=${body}`;
+      fetch('/api/save-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: rName, shootType: rShoot, rating: rRating, review: rText })
+      })
+      .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('save-review returned ' + res.status)); })
+      .then(function () {
         if (reviewConfirmMsg) {
-          reviewConfirmMsg.textContent = "Your email app should now be open with your review ready to send. If it didn't open, email afridauhtercreationsltd@camerababe.com directly.";
+          reviewConfirmMsg.textContent = 'Thank you — your review has been sent for approval.';
+          reviewConfirmMsg.classList.add('show');
+        }
+        reviewForm.reset();
+      })
+      .catch(function () {
+        if (reviewConfirmMsg) {
+          reviewConfirmMsg.innerHTML = 'Your review didn\'t go through automatically — please email <a href="mailto:afridauhtercreationsltd@camerababe.com">afridauhtercreationsltd@camerababe.com</a> directly so it isn\'t missed.';
           reviewConfirmMsg.classList.add('show');
         }
       })
-      .finally(() => {
+      .finally(function () {
         if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit review'; }
       });
     });
