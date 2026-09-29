@@ -16,3 +16,8 @@
   from = "/api/verify-deposit"
   to = "/.netlify/functions/verify-deposit"
   status = 200
+
+[[redirects]]
+  from = "/api/save-review"
+  to = "/.netlify/functions/save-review"
+  status = 200
