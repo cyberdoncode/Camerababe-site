@@ -385,6 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const rShoot = reviewForm.reviewShoot.value.trim();
       const rRating = reviewForm.reviewRating.value;
       const rText = reviewForm.reviewText.value.trim();
+      const rCompany = reviewForm.reviewCompany ? reviewForm.reviewCompany.value.trim() : '';
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
@@ -398,15 +399,16 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch('/api/save-review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: rName, shootType: rShoot, rating: rRating, review: rText })
+        body: JSON.stringify({ name: rName, shootType: rShoot, rating: rRating, review: rText, company: rCompany })
       })
       .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('save-review returned ' + res.status)); })
       .then(function () {
         if (reviewConfirmMsg) {
-          reviewConfirmMsg.textContent = 'Thank you — your review has been sent for approval.';
+          reviewConfirmMsg.textContent = 'Thank you — your review is now live on the site.';
           reviewConfirmMsg.classList.add('show');
         }
         reviewForm.reset();
+        loadReviews();
       })
       .catch(function () {
         if (reviewConfirmMsg) {
@@ -419,4 +421,55 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  // ---------------------------------------------------------------
+  // Render published reviews into the testimonials grid. Reviews
+  // auto-publish the moment they're submitted (see save-review.js /
+  // get-reviews.js), so this is the only thing that puts them on the
+  // page — there's no manual editing step anymore. Everything is
+  // inserted via textContent, never innerHTML, so a review's own text
+  // can never break the page's markup.
+  // ---------------------------------------------------------------
+  function countStars(ratingText) {
+    const match = (ratingText || '').match(/★+/);
+    return match ? match[0].length : 5;
+  }
+
+  function loadReviews() {
+    const grid = document.getElementById('tGrid');
+    if (!grid) return;
+
+    fetch('/api/get-reviews')
+      .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('get-reviews returned ' + res.status)); })
+      .then(function (data) {
+        const reviews = (data && data.reviews) || [];
+        if (!reviews.length) return; // keep the "Be the first..." placeholder already in the HTML
+
+        grid.innerHTML = '';
+        reviews.forEach(function (r) {
+          const card = document.createElement('div');
+          card.className = 't-card';
+
+          const stars = document.createElement('span');
+          stars.className = 't-stars';
+          stars.textContent = '★★★★★'.slice(0, countStars(r.rating));
+          card.appendChild(stars);
+
+          const quote = document.createElement('p');
+          quote.className = 't-quote';
+          quote.textContent = '"' + (r.review || '') + '"';
+          card.appendChild(quote);
+
+          const name = document.createElement('span');
+          name.className = 't-name';
+          name.textContent = r.name + (r.shootType ? ' — ' + r.shootType : '');
+          card.appendChild(name);
+
+          grid.appendChild(card);
+        });
+      })
+      .catch(function () { /* leave the static placeholder in place */ });
+  }
+
+  loadReviews();
 });

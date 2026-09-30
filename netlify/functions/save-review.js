@@ -4,6 +4,13 @@
 // non-blocking — a database hiccup never stops the email), and emails the
 // studio directly via Resend so it never depends on Formspree or the
 // visitor's own email app.
+//
+// Reviews publish immediately (status: 'approved') — get-reviews.js serves
+// them straight to the booking page. The studio still gets an email for
+// every single one as a heads-up, so nothing goes live completely unseen;
+// if a review ever needs pulling down, that's a manual Blobs edit / ask
+// Fatherson. A hidden honeypot field ("company") catches simple bots: if
+// it's filled in, we pretend to succeed but never save or publish it.
 
 const { getStore } = require('@netlify/blobs');
 
@@ -21,7 +28,7 @@ async function notifyStudio(record) {
 
   const html = `
     <div style="font-family:Arial,sans-serif;font-size:15px;color:#141413;line-height:1.6;">
-      <p>New review submitted on the site (pending approval):</p>
+      <p>New review submitted on the site — it's already live on the booking page:</p>
       <table style="border-collapse:collapse;">
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Name</td><td style="padding:4px 0;font-weight:600;">${record.name}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Type of shoot</td><td style="padding:4px 0;">${record.shootType || '—'}</td></tr>
@@ -84,6 +91,15 @@ exports.handler = async function (event) {
     return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid JSON body' }) };
   }
 
+  // Honeypot: a real visitor never sees or fills this field (hidden in CSS).
+  // A bot that fills every input on the form will fill it too, so any
+  // non-empty value here means "not a human" — accept-and-drop, no error
+  // shown, so the bot doesn't learn to look elsewhere.
+  const honeypot = (data.company || '').toString().trim();
+  if (honeypot) {
+    return { statusCode: 200, headers, body: JSON.stringify({ reviewId: null, saved: false, notified: false }) };
+  }
+
   const name = (data.name || '').toString().trim().slice(0, 200);
   const shootType = (data.shootType || '').toString().trim().slice(0, 120);
   const rating = (data.rating || '').toString().trim().slice(0, 10);
@@ -100,7 +116,7 @@ exports.handler = async function (event) {
     shootType,
     rating,
     review,
-    status: 'pending', // pending -> approved once you publish it on the site
+    status: 'approved', // auto-published — see note at top of file
     createdAt: new Date().toISOString(),
   };
 

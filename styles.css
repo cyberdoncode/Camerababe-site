@@ -436,6 +436,7 @@ nav.links a.cta:hover{ background:var(--gold-light); color:var(--ink); }
 .t-empty p{ color:var(--ink-soft); font-size:1.02rem; }
 
 .review-form-wrap{ margin-top:3.5rem; padding-top:2.6rem; border-top:1px solid var(--line-dark); max-width:640px; }
+.hp-field{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
 .review-form-wrap h3{ font-size:1.5rem; margin-bottom:1.5rem; }
 .review-form{ display:flex; flex-direction:column; gap:1.5rem; }
 .review-form .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }

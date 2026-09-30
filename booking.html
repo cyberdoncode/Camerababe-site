@@ -221,11 +221,10 @@
     </div>
     <p class="review-intro">Every review here comes from a real shoot with camerababe. Had a session recently? Leave one below.</p>
 
-    <div class="t-grid">
-      <div class="t-card">
+    <div class="t-grid" id="tGrid">
+      <div class="t-empty">
         <span class="t-stars">★★★★★</span>
-        <p class="t-quote">"Absolutely loved how my pictures turned out. She has such a beautiful eye for detail and really knows how to capture the best moments effortlessly. The final results were beyond what I expected. Definitely someone I'd recommend."</p>
-        <span class="t-name">Golden — Birthday shoot</span>
+        <p>Be the first to leave a review for a shoot with camerababe.</p>
       </div>
     </div>
 
@@ -257,9 +256,13 @@
           <label for="reviewText">Your review</label>
           <textarea id="reviewText" name="reviewText" placeholder="Tell us about your experience..." required></textarea>
         </div>
-        <p class="form-note-light">Reviews are checked before being added to the site.</p>
+        <div class="hp-field" aria-hidden="true">
+          <label for="reviewCompany">Company</label>
+          <input type="text" id="reviewCompany" name="reviewCompany" tabindex="-1" autocomplete="off">
+        </div>
+        <p class="form-note-light">Your review goes straight onto the site.</p>
         <button type="submit" class="btn on-paper">Submit review</button>
-        <div class="confirm-msg on-paper" id="reviewConfirmMsg">Thank you — your review has been sent for approval.</div>
+        <div class="confirm-msg on-paper" id="reviewConfirmMsg">Thank you — your review is now live on the site.</div>
       </form>
     </div>
   </div>
