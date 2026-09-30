@@ -428,6 +428,7 @@ nav.links a.cta:hover{ background:var(--gold-light); color:var(--ink); }
 .t-quote{ font-family:'Fraunces', serif; font-size:1.12rem; line-height:1.55; color:var(--ink-soft); flex:1; }
 .t-name{ font-size:0.85rem; color:var(--wine); font-weight:600; }
 @media(max-width:900px){ .t-grid{ grid-template-columns:1fr; } }
+.t-grid:has(> .t-card:only-child){ grid-template-columns:minmax(0,480px); justify-content:center; }
 
 .review-intro{ color:var(--ink-soft); font-size:1.02rem; line-height:1.6; max-width:56ch; margin-top:-1.6rem; margin-bottom:2.4rem; }
 .t-empty{ grid-column:1/-1; text-align:center; padding:3.2rem 2rem; border:1px dashed var(--line-dark); }
