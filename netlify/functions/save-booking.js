@@ -11,7 +11,7 @@
 // Needs RESEND_API_KEY set in Netlify to actually send the notification;
 // without it, the booking is still safely saved, just not emailed.
 
-const { getStore } = require('@netlify/blobs');
+const { getBlobsStore } = require('./lib/blobs-store');
 
 async function notifyStudio(record) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -124,7 +124,7 @@ exports.handler = async function (event) {
   // the database is a nice-to-have record on top of it.
   let saved = false;
   try {
-    const store = getStore('bookings');
+    const store = getBlobsStore('bookings');
     await store.setJSON(bookingId, record);
     saved = true;
   } catch (err) {

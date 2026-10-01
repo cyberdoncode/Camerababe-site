@@ -6,7 +6,7 @@
 // studio still gets an email for every one, so nothing goes up unnoticed,
 // but nothing needs manual publishing either.
 
-const { getStore } = require('@netlify/blobs');
+const { getBlobsStore } = require('./lib/blobs-store');
 
 const ALLOWED_ORIGINS = [
   'https://www.camerababe.com',
@@ -34,7 +34,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const store = getStore('reviews');
+    const store = getBlobsStore('reviews');
     const { blobs } = await store.list();
 
     const records = await Promise.all(

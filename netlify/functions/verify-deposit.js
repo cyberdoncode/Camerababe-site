@@ -16,7 +16,7 @@
 //   CONFIRMATION_FROM     - the "from" address Resend sends as (see notes
 //                           in handoff.html about domain verification)
 
-const { getStore } = require('@netlify/blobs');
+const { getBlobsStore } = require('./lib/blobs-store');
 
 const ALLOWED_ORIGINS = [
   'https://www.camerababe.com',
@@ -150,7 +150,7 @@ exports.handler = async function (event) {
 
   // Update (or create) the booking record in Netlify Blobs.
   try {
-    const store = getStore('bookings');
+    const store = getBlobsStore('bookings');
     let record = null;
     if (bookingId) {
       record = await store.get(bookingId, { type: 'json' });

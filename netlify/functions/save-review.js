@@ -12,7 +12,7 @@
 // Fatherson. A hidden honeypot field ("company") catches simple bots: if
 // it's filled in, we pretend to succeed but never save or publish it.
 
-const { getStore } = require('@netlify/blobs');
+const { getBlobsStore } = require('./lib/blobs-store');
 
 async function notifyStudio(record) {
   const apiKey = process.env.RESEND_API_KEY;
@@ -124,7 +124,7 @@ exports.handler = async function (event) {
   // hiccup must never stop the notification email from going out.
   let saved = false;
   try {
-    const store = getStore('reviews');
+    const store = getBlobsStore('reviews');
     await store.setJSON(reviewId, record);
     saved = true;
   } catch (err) {
