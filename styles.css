@@ -625,6 +625,63 @@ form.book-form{ display:flex; flex-direction:column; gap:1.5rem; }
 }
 .confirm-msg.show{ display:block; }
 
+/* ---------- BOOKING CALENDAR ---------- */
+.date-picker{
+  border:1px solid var(--line); padding:1.1rem 1.1rem 1.3rem;
+}
+.date-picker-head{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:0.9rem; font-family:'Fraunces',serif; font-style:italic;
+  color:var(--gold-light); font-size:1rem;
+}
+.cal-nav{
+  background:none; border:1px solid var(--line); color:var(--text-on-ink);
+  width:30px; height:30px; line-height:1; cursor:pointer; font-size:1rem;
+  transition:border-color .2s ease, color .2s ease;
+}
+.cal-nav:hover{ border-color:var(--gold-light); color:var(--gold-light); }
+.cal-nav:disabled{ opacity:0.3; cursor:default; }
+.cal-nav:disabled:hover{ border-color:var(--line); color:var(--text-on-ink); }
+.date-picker-dow{
+  display:grid; grid-template-columns:repeat(7,1fr); gap:4px;
+  font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase;
+  color:var(--text-muted); text-align:center; margin-bottom:0.4rem;
+}
+.date-picker-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+.date-picker-grid .cal-pad{ visibility:hidden; }
+.cal-day{
+  aspect-ratio:1; border:1px solid transparent; background:transparent;
+  color:var(--text-on-ink); font-family:'Archivo',sans-serif; font-size:0.86rem;
+  cursor:pointer; transition:border-color .2s ease, background .2s ease, color .2s ease;
+  display:flex; align-items:center; justify-content:center; position:relative;
+}
+.cal-day:hover:not(:disabled){ border-color:var(--gold-light); }
+.cal-day.selected{ background:var(--gold-light); color:var(--ink); font-weight:600; }
+.cal-day.partial::after{
+  content:''; position:absolute; bottom:4px; width:4px; height:4px; border-radius:50%;
+  background:var(--gold-light);
+}
+.cal-day.selected.partial::after{ background:var(--ink); }
+.cal-day:disabled{ color:var(--text-muted); opacity:0.3; cursor:not-allowed; text-decoration:line-through; }
+.date-picker-legend{
+  margin-top:0.8rem; font-size:0.74rem; color:var(--text-muted);
+  display:flex; align-items:center; gap:0.3rem;
+}
+.date-picker-legend .dot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+.date-picker-legend .dot.full{ background:var(--text-muted); opacity:0.5; }
+.date-picker-legend .dot.partial{ background:var(--gold-light); margin-left:0.6rem; }
+.date-picker-hint{ font-size:0.82rem; color:var(--text-muted); margin-top:0.5rem; }
+.date-picker-hint.chosen{ color:var(--gold-light); }
+.slot-options{ display:flex; flex-wrap:wrap; gap:0.6rem; }
+.slot-btn{
+  border:1px solid var(--line); background:none; color:var(--text-on-ink);
+  font-family:'Archivo',sans-serif; font-size:0.86rem; padding:0.6rem 1rem;
+  cursor:pointer; transition:border-color .2s ease, background .2s ease, color .2s ease;
+}
+.slot-btn:hover:not(:disabled){ border-color:var(--gold-light); }
+.slot-btn.selected{ background:var(--gold-light); color:var(--ink); border-color:var(--gold-light); font-weight:600; }
+.slot-btn:disabled{ color:var(--text-muted); opacity:0.35; cursor:not-allowed; text-decoration:line-through; }
+
 /* ---------- FOOTER ---------- */
 footer{ background:var(--ink); color:var(--text-muted); padding:4rem 0 2.4rem; }
 .footer-grid{

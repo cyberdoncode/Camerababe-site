@@ -191,16 +191,35 @@
           </select>
         </div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="date">Preferred date</label>
-          <input type="date" id="date" name="date">
-        </div>
-        <div class="field">
-          <label for="location">Location</label>
-          <input type="text" id="location" name="location" placeholder="City / venue">
-        </div>
+      <div class="field">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" placeholder="City / venue">
       </div>
+
+      <div class="field">
+        <label>Preferred date</label>
+        <div class="date-picker" id="datePicker">
+          <div class="date-picker-head">
+            <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+            <span id="calMonthLabel"></span>
+            <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+          </div>
+          <div class="date-picker-dow">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="date-picker-grid" id="calGrid"></div>
+          <p class="date-picker-legend"><span class="dot full"></span> Fully booked &nbsp; <span class="dot partial"></span> Limited</p>
+        </div>
+        <input type="hidden" id="date" name="date">
+        <p class="date-picker-hint" id="dateHint">Pick a date to see available times.</p>
+      </div>
+
+      <div class="field" id="slotField" style="display:none;">
+        <label>Preferred time</label>
+        <div class="slot-options" id="slotOptions"></div>
+        <input type="hidden" id="timeSlot" name="timeSlot">
+      </div>
+
       <div class="field">
         <label for="message">Tell me about the day</label>
         <textarea id="message" name="message" placeholder="Number of guests, hours of coverage, the vibe you're going for..."></textarea>

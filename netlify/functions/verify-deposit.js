@@ -17,6 +17,7 @@
 //                           in handoff.html about domain verification)
 
 const { getBlobsStore } = require('./lib/blobs-store');
+const { isSlotAvailable } = require('./lib/availability');
 
 const ALLOWED_ORIGINS = [
   'https://www.camerababe.com',
@@ -48,7 +49,7 @@ async function verifyWithPaystack(reference) {
   return json.data; // { status, amount (kobo), currency, customer, reference, ... }
 }
 
-async function sendConfirmationEmail({ toEmail, packageLabel, amountNaira, reference }) {
+async function sendConfirmationEmail({ toEmail, packageLabel, amountNaira, reference, slotConflict }) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.CONFIRMATION_FROM || 'camerababe <onboarding@resend.dev>';
   const studioEmail = process.env.STUDIO_EMAIL || 'afridauhtercreationsltd@camerababe.com';
@@ -59,11 +60,17 @@ async function sendConfirmationEmail({ toEmail, packageLabel, amountNaira, refer
   }
 
   const amountDisplay = '₦' + Math.round(amountNaira).toLocaleString('en-NG');
-  const subject = 'Your camerababe deposit is confirmed';
+  // Keep the client's own email calm and reassuring either way — the
+  // conflict is something the studio resolves personally, not something
+  // the client needs to panic over mid-checkout.
+  const subject = slotConflict
+    ? '⚠ DOUBLE-BOOKING — camerababe deposit paid, date needs a look'
+    : 'Your camerababe deposit is confirmed';
   const html = `
     <div style="font-family:Arial,sans-serif;font-size:15px;color:#141413;line-height:1.6;">
+      ${slotConflict ? '<p style="color:#9a3b33;font-weight:700;">Heads up — this date/time may already be taken by another paid booking. Double-check before confirming the session.</p>' : ''}
       <p>Hi,</p>
-      <p>Your deposit has been received and your booking is confirmed.</p>
+      <p>Your deposit has been received${slotConflict ? '' : ' and your booking is confirmed'}.</p>
       <table style="margin:1rem 0;border-collapse:collapse;">
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Package</td><td style="padding:4px 0;font-weight:600;">${packageLabel}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Deposit paid</td><td style="padding:4px 0;font-weight:600;">${amountDisplay}</td></tr>
@@ -148,7 +155,14 @@ exports.handler = async function (event) {
     };
   }
 
-  // Update (or create) the booking record in Netlify Blobs.
+  // Update (or create) the booking record in Netlify Blobs. Payment has
+  // already succeeded on Paystack's side by this point — that can't be
+  // undone here — so the one thing left to protect is honesty: if this
+  // date+slot got taken by someone else in the gap between the client
+  // picking it and this payment clearing (the race the calendar can't
+  // fully close on its own), don't silently mark it as a normal confirmed
+  // booking — flag it so the studio can follow up personally instead.
+  let slotConflict = false;
   try {
     const store = getBlobsStore('bookings');
     let record = null;
@@ -158,7 +172,20 @@ exports.handler = async function (event) {
     if (!record) {
       record = { bookingId: bookingId || reference, createdAt: new Date().toISOString() };
     }
-    record.status = 'deposit_paid';
+
+    if (record.date) {
+      try {
+        const { blobs } = await store.list();
+        const others = await Promise.all(
+          blobs.map(function (b) { return store.get(b.key, { type: 'json' }).catch(function () { return null; }); })
+        );
+        slotConflict = !isSlotAvailable(others.filter(Boolean), record.date, record.timeSlot, record.bookingId);
+      } catch (err) {
+        console.error('verify-deposit: conflict check failed, proceeding without it', err);
+      }
+    }
+
+    record.status = slotConflict ? 'deposit_paid_conflict' : 'deposit_paid';
     record.email = record.email || email;
     record.packageLabel = packageLabel;
     record.depositAmountNaira = amountNaira;
@@ -174,7 +201,7 @@ exports.handler = async function (event) {
 
   let emailResult = { sent: false };
   try {
-    emailResult = await sendConfirmationEmail({ toEmail: email, packageLabel, amountNaira, reference });
+    emailResult = await sendConfirmationEmail({ toEmail: email, packageLabel, amountNaira, reference, slotConflict });
   } catch (err) {
     console.error('verify-deposit: email send threw', err);
   }
@@ -187,6 +214,7 @@ exports.handler = async function (event) {
       amountNaira,
       reference,
       emailSent: !!emailResult.sent,
+      slotConflict,
     }),
   };
 };

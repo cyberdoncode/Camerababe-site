@@ -220,8 +220,58 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const payNowBtn = document.getElementById('payNowBtn');
-      if (payNowBtn) { payNowBtn.disabled = true; payNowBtn.textContent = 'Opening secure checkout...'; }
+      if (payNowBtn) { payNowBtn.disabled = true; payNowBtn.textContent = 'Checking date availability...'; }
 
+      // One more check, right before money moves: the calendar already
+      // kept them off a full date when they picked it, but time has
+      // passed since then — someone else could have paid for that same
+      // date/slot in the meantime. This doesn't fully close the race (the
+      // server does the final, authoritative check at verify-deposit) but
+      // it catches the common case before Paystack even opens.
+      let storedDate = null, storedTimeSlot = null;
+      try {
+        storedDate = sessionStorage.getItem('camerababe_bookingDate');
+        storedTimeSlot = sessionStorage.getItem('camerababe_bookingTimeSlot');
+      } catch (err) {}
+
+      const proceedToCheckout = function () {
+        if (payNowBtn) { payNowBtn.textContent = 'Opening secure checkout...'; }
+        openPaystackCheckout(amountNaira, email, packageLabel);
+      };
+
+      if (storedDate) {
+        fetch('/api/get-availability')
+          .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('bad status')); })
+          .then(function (data) {
+            const info = data.availability && data.availability[storedDate];
+            const taken = (info && info.takenSlots) || [];
+            const isFull = !!(info && info.full);
+            const slotTaken = storedTimeSlot && taken.indexOf(storedTimeSlot) !== -1;
+
+            if (isFull || slotTaken) {
+              if (payNowBtn) { payNowBtn.disabled = false; payNowBtn.textContent = 'Continue to Paystack'; }
+              if (payConfirmMsg) {
+                payConfirmMsg.textContent = 'That date/time just got taken by another booking — please go back up, pick a different date or time, and resubmit before paying.';
+                payConfirmMsg.classList.add('show');
+              }
+              return;
+            }
+            proceedToCheckout();
+          })
+          .catch(function () {
+            // Couldn't reach the availability check — don't block a real
+            // payment over a connectivity hiccup; the server still does
+            // the authoritative check when the deposit is verified.
+            proceedToCheckout();
+          });
+      } else {
+        proceedToCheckout();
+      }
+    });
+  }
+
+  function openPaystackCheckout(amountNaira, email, packageLabel) {
+      const payNowBtn = document.getElementById('payNowBtn');
       const handler = PaystackPop.setup({
         key: PAYSTACK_PUBLIC_KEY,
         email: email,
@@ -291,7 +341,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       handler.openIframe();
-    });
   }
 
   // After a booking request is sent, guide the client straight into the
@@ -309,6 +358,173 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 400);
   }
 
+  // Booking calendar: shows which dates already have a deposit-paid shoot
+  // against them (greyed out once the studio's daily cap is hit) and lets
+  // the client pick one of the fixed time-of-day slots for whichever date
+  // they choose. The date itself is a hard check against real bookings;
+  // the time is a stated preference the studio confirms manually — shoots
+  // vary too much in length (an hour vs a full wedding day) to model real
+  // start/end times here.
+  const calGrid = document.getElementById('calGrid');
+  const calMonthLabel = document.getElementById('calMonthLabel');
+  const calPrev = document.getElementById('calPrev');
+  const calNext = document.getElementById('calNext');
+  const dateHiddenInput = document.getElementById('date');
+  const dateHint = document.getElementById('dateHint');
+  const slotField = document.getElementById('slotField');
+  const slotOptions = document.getElementById('slotOptions');
+  const timeSlotHiddenInput = document.getElementById('timeSlot');
+
+  let availabilityData = { dailyCap: 2, slots: [], availability: {} };
+  let calViewYear, calViewMonth; // 0-indexed month currently shown
+  let selectedDateStr = '';
+
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+  function toDateStr(y, m, d) { return y + '-' + pad2(m + 1) + '-' + pad2(d); }
+
+  function fetchAvailability() {
+    return fetch('/api/get-availability')
+      .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('bad status')); })
+      .then(function (data) {
+        availabilityData = {
+          dailyCap: data.dailyCap || 2,
+          slots: data.slots || [],
+          availability: data.availability || {},
+        };
+      })
+      .catch(function () {
+        // Leave the "nothing known taken" default — the calendar still
+        // works, it just can't warn about full dates until a later
+        // refresh succeeds (and the server double-checks at deposit time
+        // regardless, so this never risks an actual double-booking).
+      });
+  }
+
+  function renderCalendar() {
+    if (!calGrid || !calMonthLabel) return;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    calMonthLabel.textContent = monthNames[calViewMonth] + ' ' + calViewYear;
+
+    const firstOfMonth = new Date(calViewYear, calViewMonth, 1);
+    const startOffset = firstOfMonth.getDay();
+    const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
+
+    calGrid.innerHTML = '';
+    for (let i = 0; i < startOffset; i++) {
+      const pad = document.createElement('span');
+      pad.className = 'cal-pad';
+      calGrid.appendChild(pad);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dateStr = toDateStr(calViewYear, calViewMonth, d);
+      const cellDate = new Date(calViewYear, calViewMonth, d);
+      const isPast = cellDate < today;
+      const info = availabilityData.availability[dateStr];
+      const isFull = !!(info && info.full);
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cal-day';
+      btn.textContent = d;
+      if (info && !isFull) btn.classList.add('partial');
+      if (dateStr === selectedDateStr) btn.classList.add('selected');
+      if (isPast || isFull) {
+        btn.disabled = true;
+      } else {
+        btn.addEventListener('click', function () { selectDate(dateStr); });
+      }
+      calGrid.appendChild(btn);
+    }
+
+    const viewedMonthIsPastOrCurrent = (calViewYear < today.getFullYear()) ||
+      (calViewYear === today.getFullYear() && calViewMonth <= today.getMonth());
+    if (calPrev) calPrev.disabled = viewedMonthIsPastOrCurrent;
+  }
+
+  function renderSlots(dateStr) {
+    if (!slotField || !slotOptions) return;
+    const info = availabilityData.availability[dateStr];
+    const taken = (info && info.takenSlots) || [];
+    const slotsConfig = availabilityData.slots.length ? availabilityData.slots : [
+      { id: 'morning', label: 'Morning' }, { id: 'afternoon', label: 'Afternoon' }, { id: 'evening', label: 'Evening' },
+    ];
+
+    slotOptions.innerHTML = '';
+    slotsConfig.forEach(function (slot) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot-btn';
+      btn.textContent = slot.label;
+      if (taken.indexOf(slot.id) !== -1) {
+        btn.disabled = true;
+      } else {
+        btn.addEventListener('click', function () {
+          Array.prototype.forEach.call(slotOptions.children, function (b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          if (timeSlotHiddenInput) timeSlotHiddenInput.value = slot.id;
+        });
+      }
+      slotOptions.appendChild(btn);
+    });
+
+    slotField.style.display = '';
+  }
+
+  function selectDate(dateStr) {
+    selectedDateStr = dateStr;
+    if (dateHiddenInput) dateHiddenInput.value = dateStr;
+    if (timeSlotHiddenInput) timeSlotHiddenInput.value = '';
+
+    renderCalendar();
+    renderSlots(dateStr);
+
+    if (dateHint) {
+      const d = new Date(dateStr + 'T00:00:00');
+      dateHint.textContent = 'Selected: ' + d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      dateHint.classList.add('chosen');
+    }
+  }
+
+  function resetCalendarSelection() {
+    selectedDateStr = '';
+    if (dateHiddenInput) dateHiddenInput.value = '';
+    if (timeSlotHiddenInput) timeSlotHiddenInput.value = '';
+    if (slotField) slotField.style.display = 'none';
+    if (dateHint) {
+      dateHint.textContent = 'Pick a date to see available times.';
+      dateHint.classList.remove('chosen');
+    }
+    renderCalendar();
+  }
+
+  if (calGrid && calMonthLabel) {
+    const now = new Date();
+    calViewYear = now.getFullYear();
+    calViewMonth = now.getMonth();
+
+    if (calPrev) {
+      calPrev.addEventListener('click', function () {
+        calViewMonth -= 1;
+        if (calViewMonth < 0) { calViewMonth = 11; calViewYear -= 1; }
+        renderCalendar();
+      });
+    }
+    if (calNext) {
+      calNext.addEventListener('click', function () {
+        calViewMonth += 1;
+        if (calViewMonth > 11) { calViewMonth = 0; calViewYear += 1; }
+        renderCalendar();
+      });
+    }
+
+    renderCalendar(); // paint immediately so the grid isn't blank while the fetch is in flight
+    fetchAvailability().then(renderCalendar);
+  }
+
   // Booking form -> our own API (reliable: saves it + emails the studio via
   // Resend). Formspree is kept only as a silent backup copy — it no longer
   // decides what message the visitor sees, since it's proven unreliable.
@@ -323,8 +539,19 @@ document.addEventListener('DOMContentLoaded', function () {
       const phone = form.phone.value.trim();
       const eventType = form.eventType.value;
       const date = form.date.value;
+      const timeSlot = form.timeSlot.value;
       const location = form.location.value.trim();
       const message = form.message.value.trim();
+
+      // Only nudge for a time once they've actually picked a date — a date
+      // is still optional overall, same as before this feature existed.
+      if (date && !timeSlot) {
+        if (confirmMsg) {
+          confirmMsg.textContent = 'Please pick a preferred time for that date, or clear the date if you\'re not sure yet.';
+          confirmMsg.classList.add('show');
+        }
+        return;
+      }
 
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
@@ -332,7 +559,7 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch('https://formspree.io/f/mdekaajw', {
         method: 'POST',
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, eventType, date, location, message })
+        body: JSON.stringify({ name, email, phone, eventType, date, timeSlot, location, message })
       }).catch(function () {});
 
       // The real, reliable path — this is what the visitor's message is
@@ -341,12 +568,16 @@ document.addEventListener('DOMContentLoaded', function () {
       fetch('/api/save-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, eventType, date, location, message })
+        body: JSON.stringify({ name, email, phone, eventType, date, timeSlot, location, message })
       })
       .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('save-booking returned ' + res.status)); })
       .then(function (result) {
         if (result && result.bookingId) {
-          try { sessionStorage.setItem('camerababe_bookingId', result.bookingId); } catch (e) {}
+          try {
+            sessionStorage.setItem('camerababe_bookingId', result.bookingId);
+            sessionStorage.setItem('camerababe_bookingDate', date || '');
+            sessionStorage.setItem('camerababe_bookingTimeSlot', timeSlot || '');
+          } catch (e) {}
         }
         if (confirmMsg) {
           confirmMsg.textContent = "Thank you — your booking request has been sent. To lock in your date right away, pick your package below and pay your deposit — otherwise I'll get back to you within 24–48 hours.";
@@ -356,6 +587,7 @@ document.addEventListener('DOMContentLoaded', function () {
           gtag('event', 'book_submit', { shoot_type: eventType || 'Unspecified' });
         }
         form.reset();
+        resetCalendarSelection();
       })
       .catch(function () {
         if (confirmMsg) {

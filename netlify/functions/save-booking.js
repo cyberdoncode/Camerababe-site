@@ -31,7 +31,7 @@ async function notifyStudio(record) {
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Email</td><td style="padding:4px 0;">${record.email}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Phone</td><td style="padding:4px 0;">${record.phone || '—'}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Type of shoot</td><td style="padding:4px 0;">${record.eventType || '—'}</td></tr>
-        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Preferred date</td><td style="padding:4px 0;">${record.date || '—'}</td></tr>
+        <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Preferred date</td><td style="padding:4px 0;">${record.date || '—'}${record.timeSlot ? ' — ' + record.timeSlot : ''}</td></tr>
         <tr><td style="padding:4px 12px 4px 0;color:#6b6459;">Location</td><td style="padding:4px 0;">${record.location || '—'}</td></tr>
       </table>
       <p style="margin-top:1rem;color:#6b6459;">Details:</p>
@@ -97,6 +97,7 @@ exports.handler = async function (event) {
   const phone = (data.phone || '').toString().trim().slice(0, 60);
   const eventType = (data.eventType || '').toString().trim().slice(0, 120);
   const date = (data.date || '').toString().trim().slice(0, 40);
+  const timeSlot = (data.timeSlot || '').toString().trim().slice(0, 40);
   const location = (data.location || '').toString().trim().slice(0, 200);
   const message = (data.message || '').toString().trim().slice(0, 4000);
 
@@ -112,6 +113,7 @@ exports.handler = async function (event) {
     phone,
     eventType,
     date,
+    timeSlot,
     location,
     message,
     status: 'inquiry', // inquiry -> deposit_paid once verify-deposit confirms payment

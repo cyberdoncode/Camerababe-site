@@ -26,3 +26,8 @@
   from = "/api/get-reviews"
   to = "/.netlify/functions/get-reviews"
   status = 200
+
+[[redirects]]
+  from = "/api/get-availability"
+  to = "/.netlify/functions/get-availability"
+  status = 200
