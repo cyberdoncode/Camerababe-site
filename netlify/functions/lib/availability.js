@@ -1,18 +1,20 @@
 // Shared availability rules for the booking calendar.
 //
-// Design (see discussion with the studio owner, Oct 2026): shoots vary
-// wildly in length (a 1-hour portrait session vs an 8-hour wedding), so
-// instead of trying to model real start/end times, availability is kept
-// simple and honest:
-//   - Each date can hold up to DAILY_CAP shoots.
+// Design (see discussion with the studio owner, Oct 2026 — updated after
+// she raised her daily capacity to 5): shoots vary wildly in length (a
+// 1-hour portrait session vs an 8-hour wedding), so instead of trying to
+// model real start/end times, availability is kept simple and honest:
+//   - Each date can hold up to DAILY_CAP shoots in total.
 //   - Each shoot picks one of three fixed time-of-day slots below, purely
 //     as a stated preference the studio reviews and confirms manually —
-//     not a strict scheduling guarantee.
+//     not an exclusive booking slot. More than one shoot can share the
+//     same time-of-day label (e.g. three "Morning" bookings in one day);
+//     only the total count against DAILY_CAP actually blocks a date.
 //   - A date only becomes "taken" once a booking's deposit has actually
 //     been paid (status: 'deposit_paid') — an unpaid inquiry never blocks
 //     a date for anyone else.
 
-const DAILY_CAP = 2;
+const DAILY_CAP = 5;
 
 const TIME_SLOTS = [
   { id: 'morning', label: 'Morning (9am–12pm)' },
@@ -30,11 +32,13 @@ function isPaid(status) {
   return status === 'deposit_paid' || status === 'deposit_paid_conflict';
 }
 
-// Builds { "YYYY-MM-DD": { takenSlots: ["morning"], count: 1, full: false } }
-// from a list of booking records. Only counts deposit-paid bookings with a
-// recognized date + timeSlot; anything else (inquiries, custom-quote
-// bookings with no slot chosen yet, malformed records) is ignored rather
-// than breaking the whole calendar.
+// Builds { "YYYY-MM-DD": { slotCounts: {morning:2,afternoon:0,evening:1},
+// count: 3, full: false } } from a list of booking records. slotCounts is
+// informational only (lets the UI show "2 already booked that morning")
+// — it never disables a slot, since slots aren't exclusive. Only counts
+// deposit-paid bookings with a recognized date; a missing/unrecognized
+// timeSlot still counts toward the day's total, it just isn't tallied
+// under any specific slot.
 function buildAvailabilityMap(bookings) {
   const map = {};
   bookings.forEach(function (b) {
@@ -43,10 +47,10 @@ function buildAvailabilityMap(bookings) {
     const slot = (b.timeSlot || '').toString().trim();
     if (!date) return;
 
-    if (!map[date]) map[date] = { takenSlots: [], count: 0 };
+    if (!map[date]) map[date] = { slotCounts: {}, count: 0 };
     map[date].count += 1;
-    if (slot && TIME_SLOT_IDS.indexOf(slot) !== -1 && map[date].takenSlots.indexOf(slot) === -1) {
-      map[date].takenSlots.push(slot);
+    if (slot && TIME_SLOT_IDS.indexOf(slot) !== -1) {
+      map[date].slotCounts[slot] = (map[date].slotCounts[slot] || 0) + 1;
     }
   });
 
@@ -57,18 +61,17 @@ function buildAvailabilityMap(bookings) {
   return map;
 }
 
-// True if `date` (YYYY-MM-DD) + `timeSlot` id is still bookable given the
-// current set of deposit-paid bookings — i.e. the day isn't already at
-// DAILY_CAP, and that specific slot isn't already taken that day.
-// `excludeBookingId` lets a booking check against everyone else's slots
-// without being blocked by its own not-yet-paid record.
+// True if `date` is still bookable given the current set of deposit-paid
+// bookings — i.e. the day isn't already at DAILY_CAP. `timeSlot` is kept
+// in the signature for callers that still pass it, but slots aren't
+// exclusive, so it has no effect on the result. `excludeBookingId` lets a
+// booking check against everyone else's count without being blocked by
+// its own not-yet-paid record.
 function isSlotAvailable(bookings, date, timeSlot, excludeBookingId) {
   const relevant = bookings.filter(function (b) {
     return b && isPaid(b.status) && b.date === date && b.bookingId !== excludeBookingId;
   });
-  if (relevant.length >= DAILY_CAP) return false;
-  if (timeSlot && relevant.some(function (b) { return b.timeSlot === timeSlot; })) return false;
-  return true;
+  return relevant.length < DAILY_CAP;
 }
 
 module.exports = { DAILY_CAP, TIME_SLOTS, TIME_SLOT_IDS, buildAvailabilityMap, isSlotAvailable };

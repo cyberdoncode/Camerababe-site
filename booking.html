@@ -87,41 +87,67 @@
             <label for="packageSelect">What are you booking?</label>
             <select id="packageSelect" name="packageSelect" required>
               <option value="" disabled selected>Select a package</option>
+              <optgroup label="Traditional Wedding">
+                <option value="trad-intro" data-price="380000" data-deposit="0.7">The Introduction — 1 photographer, up to 5 hrs, 60+ photos — ₦380,000</option>
+                <option value="trad-families" data-price="560000" data-deposit="0.7">Two Families, One Frame — 2 photographers, full day, 100+ photos, teaser reel, photobook — ₦560,000</option>
+                <option value="trad-heritage" data-price="850000" data-deposit="0.7">The Heritage Edit — 2 photographers + videographer, 150+ photos, ceremony film, photobook, framed portrait — ₦850,000</option>
+              </optgroup>
+              <optgroup label="White Wedding">
+                <option value="white-ceremony" data-price="600000" data-deposit="0.7">The Ceremony — 1 photographer, up to 8 hrs, 100+ photos — ₦600,000</option>
+                <option value="white-happily" data-price="950000" data-deposit="0.7">Happily, Ever — 2 photographers + videographer, 150+ photos, wedding film, photobook, pre-wedding session — ₦950,000</option>
+                <option value="white-full" data-price="1600000" data-from="1" data-deposit="0.7">The Full Story — 2 photographers + 2 videographers, drone, 300+ photos, film, photobooks — from ₦1,600,000</option>
+              </optgroup>
+              <optgroup label="Wedding Add-ons">
+                <option value="bridal-shower" data-price="220000">Bridal shower coverage — up to 3 hrs, 25 edited photos — ₦220,000</option>
+                <option value="wedding-film-extra" data-price="350000" data-from="1">Extra wedding film (added to a photo-only tier) — highlight reel 3–5 min — from ₦350,000</option>
+              </optgroup>
+              <optgroup label="Engagement Shoot (1 outfit)">
+                <option value="engagement-photo" data-price="120000">Engagement shoot — 1 outfit, 1 location, edited photos — ₦120,000</option>
+                <option value="engagement-video" data-price="120000">Engagement video coverage — 1 outfit, 1 location, highlight film — ₦120,000</option>
+              </optgroup>
+              <optgroup label="Pre-wedding Shoot">
+                <option value="prewed-1" data-price="180000">Pre-wedding photoshoot — 2 outfits, 1 location, 15 edited photos — ₦180,000</option>
+                <option value="prewed-2" data-price="260000">Pre-wedding photoshoot — 2 outfits, 2 locations, 20 edited photos — ₦260,000</option>
+                <option value="prewed-video" data-price="150000">Pre-wedding video coverage — 2 outfits, 1 location, highlight film — ₦150,000</option>
+              </optgroup>
+              <optgroup label="Brand & Editorial">
+                <option value="brand-session" data-price="180000">Personal branding session — 1 hr, 1 outfit, 12 edited photos — ₦180,000</option>
+                <option value="headshot" data-price="70000">Executive headshots — per person — ₦70,000</option>
+                <option value="editorial" data-price="350000" data-from="1">Editorial / fashion concept shoot — half day, 15+ edited photos — from ₦350,000</option>
+                <option value="brand-campaign" data-price="450000" data-from="1">Brand campaign shoot — product + lifestyle, full day — from ₦450,000</option>
+              </optgroup>
+              <optgroup label="Event Coverage">
+                <option value="event-small" data-price="220000">Small event — up to 3 hrs (baby shower, small gathering) — ₦220,000</option>
+                <option value="event-medium" data-price="400000">Medium event — up to 6 hrs (brand launch, product reveal) — ₦400,000</option>
+                <option value="event-large" data-price="700000" data-from="1">Large event — full day, multiple photographers — from ₦700,000</option>
+              </optgroup>
               <optgroup label="iPhone Photoshoot">
-                <option value="iphone-1" data-price="40000">1 outfit — 5 edited photos — ₦40,000</option>
+                <option value="iphone-1" data-price="45000">1 outfit — 5 edited photos — ₦45,000</option>
+                <option value="iphone-2" data-price="90000">2 outfits — 9 edited photos — ₦90,000</option>
+                <option value="iphone-3" data-price="130000">3 outfits — 13 edited photos — ₦130,000</option>
               </optgroup>
               <optgroup label="Digital Camera Photoshoot">
-                <option value="dslr-1" data-price="70000">1 outfit — 5 edited photos — ₦70,000</option>
-              </optgroup>
-              <optgroup label="Outfit Bundle — iPhone">
-                <option value="iphone-2" data-price="75000">2 outfits — 9 edited photos — ₦75,000</option>
-                <option value="iphone-3" data-price="110000">3 outfits — 13 edited photos — ₦110,000</option>
-              </optgroup>
-              <optgroup label="Outfit Bundle — Digital Camera">
-                <option value="dslr-2" data-price="140000">2 outfits — 9 edited photos — ₦140,000</option>
-                <option value="dslr-3" data-price="200000">3 outfits — 13 edited photos — ₦200,000</option>
-              </optgroup>
-              <optgroup label="Video &amp; Reels">
-                <option value="reel-iphone" data-price="30000">iPhone reel — ₦30,000</option>
-                <option value="reel-couple" data-price="60000">Couple reel — ₦60,000</option>
-                <option value="reel-dslr" data-price="100000" data-from="1">Digital camera reel — from ₦100,000</option>
-                <option value="video-edit" data-price="15000">Video editing only (you supply footage) — ₦15,000</option>
-              </optgroup>
-              <optgroup label="Mini Event Coverage">
-                <option value="event-video" data-price="100000" data-from="1">Mobile videography, up to 4 hours — from ₦100,000</option>
-                <option value="event-photo" data-price="150000" data-from="1">Event photography — from ₦150,000</option>
+                <option value="dslr-1" data-price="80000">1 outfit — 5 edited photos — ₦80,000</option>
+                <option value="dslr-2" data-price="165000">2 outfits — 9 edited photos — ₦165,000</option>
+                <option value="dslr-3" data-price="240000">3 outfits — 13 edited photos — ₦240,000</option>
               </optgroup>
               <optgroup label="Family Portraits — Digital Camera">
-                <option value="family-dslr-3" data-price="120000">Up to 3 people — ₦120,000</option>
-                <option value="family-dslr-5" data-price="160000">Up to 5 people — ₦160,000</option>
-                <option value="family-dslr-8" data-price="220000">Up to 8 people — ₦220,000</option>
+                <option value="family-dslr-3" data-price="140000">Up to 3 people — 8 edited photos — ₦140,000</option>
+                <option value="family-dslr-5" data-price="190000">Up to 5 people — 10 edited photos — ₦190,000</option>
+                <option value="family-dslr-8" data-price="260000">Up to 8 people — 15 edited photos — ₦260,000</option>
               </optgroup>
               <optgroup label="Family Portraits — iPhone">
-                <option value="family-iphone-3" data-price="80000">Up to 3 people — ₦80,000</option>
-                <option value="family-iphone-5" data-price="110000">Up to 5 people — ₦110,000</option>
-                <option value="family-iphone-8" data-price="150000">Up to 8 people — ₦150,000</option>
+                <option value="family-iphone-3" data-price="95000">Up to 3 people — ₦95,000</option>
+                <option value="family-iphone-5" data-price="130000">Up to 5 people — ₦130,000</option>
+                <option value="family-iphone-8" data-price="175000">Up to 8 people — ₦175,000</option>
               </optgroup>
-              <optgroup label="Weddings &amp; Larger Events">
+              <optgroup label="Video & Reels">
+                <option value="reel-iphone" data-price="35000">iPhone reel — ₦35,000</option>
+                <option value="reel-couple" data-price="70000">Couple reel — ₦70,000</option>
+                <option value="reel-dslr" data-price="120000" data-from="1">Digital camera reel — from ₦120,000</option>
+                <option value="video-edit" data-price="18000">Video editing only (you supply footage) — ₦18,000</option>
+              </optgroup>
+              <optgroup label="Other">
                 <option value="custom" data-price="0" data-custom="1">Custom quote — I'll enter my own amount</option>
               </optgroup>
             </select>

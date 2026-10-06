@@ -170,7 +170,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       const price = parseFloat(opt.dataset.price) || 0;
       const isFrom = opt.dataset.from === '1';
-      const deposit = price * STANDARD_DEPOSIT_RATE;
+      const rate = parseFloat(opt.dataset.deposit) || STANDARD_DEPOSIT_RATE;
+      const deposit = price * rate;
+      const depLabel = document.getElementById('depositLabel');
+      if (depLabel) depLabel.textContent = 'Deposit due now (' + Math.round(rate * 100) + '%)';
 
       if (fullPriceDisplay) fullPriceDisplay.textContent = (isFrom ? 'From ' : '') + formatNaira(price);
       if (depositAmountDisplay) depositAmountDisplay.textContent = formatNaira(deposit);
@@ -207,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
         packageLabel = 'Custom quote (weddings / larger events)';
       } else {
         const price = parseFloat(opt.dataset.price) || 0;
-        amountNaira = price * STANDARD_DEPOSIT_RATE;
+        amountNaira = price * (parseFloat(opt.dataset.deposit) || STANDARD_DEPOSIT_RATE);
         packageLabel = opt.textContent;
       }
 
@@ -244,14 +247,12 @@ document.addEventListener('DOMContentLoaded', function () {
           .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('bad status')); })
           .then(function (data) {
             const info = data.availability && data.availability[storedDate];
-            const taken = (info && info.takenSlots) || [];
             const isFull = !!(info && info.full);
-            const slotTaken = storedTimeSlot && taken.indexOf(storedTimeSlot) !== -1;
 
-            if (isFull || slotTaken) {
+            if (isFull) {
               if (payNowBtn) { payNowBtn.disabled = false; payNowBtn.textContent = 'Continue to Paystack'; }
               if (payConfirmMsg) {
-                payConfirmMsg.textContent = 'That date/time just got taken by another booking — please go back up, pick a different date or time, and resubmit before paying.';
+                payConfirmMsg.textContent = 'That date just filled up with other bookings — please go back up, pick a different date, and resubmit before paying.';
                 payConfirmMsg.classList.add('show');
               }
               return;
@@ -448,26 +449,27 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderSlots(dateStr) {
     if (!slotField || !slotOptions) return;
     const info = availabilityData.availability[dateStr];
-    const taken = (info && info.takenSlots) || [];
+    const slotCounts = (info && info.slotCounts) || {};
     const slotsConfig = availabilityData.slots.length ? availabilityData.slots : [
       { id: 'morning', label: 'Morning' }, { id: 'afternoon', label: 'Afternoon' }, { id: 'evening', label: 'Evening' },
     ];
 
+    // Slots are a stated preference, not an exclusive booking — more than
+    // one shoot can share the same time-of-day label. Only the date's
+    // total (against the studio's daily cap) actually blocks anything, so
+    // every slot stays selectable; a count just hints how busy it already is.
     slotOptions.innerHTML = '';
     slotsConfig.forEach(function (slot) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'slot-btn';
-      btn.textContent = slot.label;
-      if (taken.indexOf(slot.id) !== -1) {
-        btn.disabled = true;
-      } else {
-        btn.addEventListener('click', function () {
-          Array.prototype.forEach.call(slotOptions.children, function (b) { b.classList.remove('selected'); });
-          btn.classList.add('selected');
-          if (timeSlotHiddenInput) timeSlotHiddenInput.value = slot.id;
-        });
-      }
+      const count = slotCounts[slot.id] || 0;
+      btn.textContent = slot.label + (count ? ' (' + count + ' booked)' : '');
+      btn.addEventListener('click', function () {
+        Array.prototype.forEach.call(slotOptions.children, function (b) { b.classList.remove('selected'); });
+        btn.classList.add('selected');
+        if (timeSlotHiddenInput) timeSlotHiddenInput.value = slot.id;
+      });
       slotOptions.appendChild(btn);
     });
 
