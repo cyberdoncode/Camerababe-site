@@ -16,6 +16,26 @@
 
 const DAILY_CAP = 5;
 
+// Dates the studio has marked fully booked by hand (travel, an out-of-town
+// job, a private engagement — anything that isn't a paid website booking).
+// Inclusive ranges, YYYY-MM-DD. To block or unblock days later, edit this
+// list (and the matching BLOCKED_RANGES list at the top of main.js), then
+// redeploy.
+const BLOCKED_RANGES = [
+  { from: '2026-10-22', to: '2026-10-31' },
+];
+
+function expandBlockedDates() {
+  const out = [];
+  BLOCKED_RANGES.forEach(function (r) {
+    const d = new Date(r.from + 'T00:00:00Z');
+    const end = new Date(r.to + 'T00:00:00Z');
+    while (d <= end) { out.push(d.toISOString().slice(0, 10)); d.setUTCDate(d.getUTCDate() + 1); }
+  });
+  return out;
+}
+const BLOCKED_DATES = expandBlockedDates();
+
 const TIME_SLOTS = [
   { id: 'morning', label: 'Morning (9am–12pm)' },
   { id: 'afternoon', label: 'Afternoon (1pm–4pm)' },
@@ -58,6 +78,11 @@ function buildAvailabilityMap(bookings) {
     map[date].full = map[date].count >= DAILY_CAP;
   });
 
+  // Hand-blocked dates always show as fully booked, whatever the bookings say.
+  BLOCKED_DATES.forEach(function (date) {
+    map[date] = { slotCounts: {}, count: DAILY_CAP, full: true, blocked: true };
+  });
+
   return map;
 }
 
@@ -68,10 +93,11 @@ function buildAvailabilityMap(bookings) {
 // booking check against everyone else's count without being blocked by
 // its own not-yet-paid record.
 function isSlotAvailable(bookings, date, timeSlot, excludeBookingId) {
+  if (BLOCKED_DATES.indexOf(date) !== -1) return false;
   const relevant = bookings.filter(function (b) {
     return b && isPaid(b.status) && b.date === date && b.bookingId !== excludeBookingId;
   });
   return relevant.length < DAILY_CAP;
 }
 
-module.exports = { DAILY_CAP, TIME_SLOTS, TIME_SLOT_IDS, buildAvailabilityMap, isSlotAvailable };
+module.exports = { BLOCKED_DATES, DAILY_CAP, TIME_SLOTS, TIME_SLOT_IDS, buildAvailabilityMap, isSlotAvailable };

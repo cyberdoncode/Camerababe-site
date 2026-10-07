@@ -56,7 +56,7 @@ exports.handler = async function (event) {
     return {
       statusCode: 200,
       headers: { ...headers, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dailyCap: DAILY_CAP, slots: TIME_SLOTS, availability: {} }),
+      body: JSON.stringify({ dailyCap: DAILY_CAP, slots: TIME_SLOTS, availability: buildAvailabilityMap([]) }),
     };
   }
 };

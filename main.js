@@ -383,6 +383,23 @@ document.addEventListener('DOMContentLoaded', function () {
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
   function toDateStr(y, m, d) { return y + '-' + pad2(m + 1) + '-' + pad2(d); }
 
+  // Dates the studio has blocked by hand — kept in sync with
+  // BLOCKED_RANGES in netlify/functions/lib/availability.js. The server is
+  // the real gatekeeper; this copy just keeps the calendar honest if the
+  // availability request ever fails.
+  const BLOCKED_RANGES = [{ from: '2026-10-22', to: '2026-10-31' }];
+  function applyBlockedDates(map) {
+    BLOCKED_RANGES.forEach(function (r) {
+      const d = new Date(r.from + 'T00:00:00');
+      const end = new Date(r.to + 'T00:00:00');
+      while (d <= end) {
+        map[toDateStr(d.getFullYear(), d.getMonth(), d.getDate())] = { slotCounts: {}, count: 99, full: true, blocked: true };
+        d.setDate(d.getDate() + 1);
+      }
+    });
+    return map;
+  }
+
   function fetchAvailability() {
     return fetch('/api/get-availability')
       .then(function (res) { return res.ok ? res.json() : Promise.reject(new Error('bad status')); })
@@ -390,10 +407,11 @@ document.addEventListener('DOMContentLoaded', function () {
         availabilityData = {
           dailyCap: data.dailyCap || 2,
           slots: data.slots || [],
-          availability: data.availability || {},
+          availability: applyBlockedDates(data.availability || {}),
         };
       })
       .catch(function () {
+        availabilityData.availability = applyBlockedDates(availabilityData.availability || {});
         // Leave the "nothing known taken" default — the calendar still
         // works, it just can't warn about full dates until a later
         // refresh succeeds (and the server double-checks at deposit time
@@ -679,8 +697,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const reviews = (data && data.reviews) || [];
         if (!reviews.length) return; // keep the "Be the first..." placeholder already in the HTML
 
-        grid.innerHTML = '';
-        reviews.forEach(function (r) {
+        function buildCard(r) {
           const card = document.createElement('div');
           card.className = 't-card';
 
@@ -698,9 +715,37 @@ document.addEventListener('DOMContentLoaded', function () {
           name.className = 't-name';
           name.textContent = r.name + (r.shootType ? ' — ' + r.shootType : '');
           card.appendChild(name);
+          return card;
+        }
 
-          grid.appendChild(card);
-        });
+        grid.innerHTML = '';
+
+        // A few reviews: a tidy static grid. Many reviews: a slow,
+        // continuously drifting strip (pauses on hover) so the wall of
+        // praise feels alive instead of becoming a long list.
+        if (reviews.length < 4) {
+          reviews.forEach(function (r) { grid.appendChild(buildCard(r)); });
+          return;
+        }
+
+        grid.className = 't-marquee';
+        const rowCount = reviews.length >= 8 ? 2 : 1;
+        for (let rowIdx = 0; rowIdx < rowCount; rowIdx++) {
+          const subset = reviews.filter(function (_, i) { return i % rowCount === rowIdx; });
+          const row = document.createElement('div');
+          row.className = 't-row' + (rowIdx % 2 ? ' rev' : '');
+          row.style.setProperty('--dur', Math.max(30, subset.length * 9) + 's');
+          // Two identical sets so the loop is seamless; the copy is hidden
+          // from screen readers so reviews aren't read twice.
+          for (let copy = 0; copy < 2; copy++) {
+            const set = document.createElement('div');
+            set.className = 't-set';
+            if (copy) set.setAttribute('aria-hidden', 'true');
+            subset.forEach(function (r) { set.appendChild(buildCard(r)); });
+            row.appendChild(set);
+          }
+          grid.appendChild(row);
+        }
       })
       .catch(function () { /* leave the static placeholder in place */ });
   }

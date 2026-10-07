@@ -724,3 +724,21 @@ footer{ background:var(--ink); color:var(--text-muted); padding:4rem 0 2.4rem; }
 }
 .cursor-ring.is-hover{ width:58px; height:58px; opacity:1; }
 @media (hover:none), (pointer:coarse){ .cursor-dot, .cursor-ring{ display:none; } }
+
+/* Reviews strip — drifts left, pauses on hover */
+.t-marquee{ display:flex; flex-direction:column; gap:1.4rem; overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent); }
+.t-row{ display:flex; width:max-content; animation:t-scroll var(--dur,60s) linear infinite; }
+.t-row.rev{ animation-direction:reverse; }
+.t-set{ display:flex; gap:1.4rem; padding-right:1.4rem; }
+.t-marquee .t-card{ width:340px; flex:none; padding:1.8rem 1.6rem; }
+.t-marquee .t-quote{ display:-webkit-box; -webkit-line-clamp:8; -webkit-box-orient:vertical; overflow:hidden; font-size:1.02rem; }
+.t-marquee:hover .t-row, .t-marquee:focus-within .t-row{ animation-play-state:paused; }
+@keyframes t-scroll{ to{ transform:translateX(-50%); } }
+@media(max-width:600px){ .t-marquee .t-card{ width:280px; } }
+@media(prefers-reduced-motion:reduce){
+  .t-marquee{ overflow-x:auto; -webkit-mask-image:none; mask-image:none; }
+  .t-row{ animation:none; }
+  .t-set[aria-hidden="true"]{ display:none; }
+}
